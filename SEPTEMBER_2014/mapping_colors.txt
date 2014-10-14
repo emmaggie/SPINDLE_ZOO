@@ -1,0 +1,65 @@
+                              1                               2                               3 
+             "asterina_miniata"        "caenorhabditis_elegans"       "cerebratulus_marginatus" 
+                              4                               5                               6 
+           "ciona_intestinalis"            "helobdella_robusta" "Strongylocentrotus_purpuratus" 
+                              7                               8                               9 
+                "urechis_caupo"                "xenopus_laevis"         "mytilus_californianus" 
+                             10                              11                              12 
+           "xenopus_tropicalis"                "Equus_caballus"                  "Homo_sapiens" 
+                             13                              14                              15 
+               "Macaca_mulatta"            "Callithrix_jacchus"         "monodelphis_domestica" 
+                             16                              17                              18 
+                   "sus_scrofa"                  "mus_musculus"       "drosophila_melanogaster" 
+                             19                              20 
+                  "danio_rerio"        "Clytia_hemisphaerica_1" 
+
+
+      1         2         3         4         5         6         7         8         9        10 
+"#F8766D" "#EA8331" "#D89000" "#C09B00" "#A3A500" "#7CAE00" "#39B600" "#00BB4E" "#00BF7D" "#00C1A3" 
+       11        12        13        14        15        16        17        18        19        20 
+"#00BFC4" "#00BAE0" "#00B0F6" "#35A2FF" "#9590FF" "#C77CFF" "#E76BF3" "#FA62DB" "#FF62BC" "#FF6A98" 
+
+
+                              1                               2                               3 
+             "asterina_miniata"        "caenorhabditis_elegans"       "cerebratulus_marginatus" 
+                              4                               5                               6 
+           "ciona_intestinalis"            "helobdella_robusta" "Strongylocentrotus_purpuratus" 
+                              7                               8                               9 
+                "urechis_caupo"                "xenopus_laevis"         "mytilus_californianus" 
+                             10                              11                              12 
+           "xenopus_tropicalis"                "Equus_caballus"                  "Homo_sapiens" 
+                             13                              14                              15 
+               "Macaca_mulatta"            "Callithrix_jacchus"         "monodelphis_domestica" 
+                             16                              17                              18 
+                   "sus_scrofa"                  "mus_musculus"       "drosophila_melanogaster" 
+                             19                              20 
+                  "danio_rerio"        "Clytia_hemisphaerica_1" 
+                  
+NEW COLOR ORDER:
+
+"#F8766D" "asterina_miniata"  1
+"#00B0F6" caenorhabditis_elegans 2
+"#FF6A98" "cerebratulus_marginatus" 3
+"#35A2FF" "ciona_intestinalis"  4
+"#C09B00" "helobdella_robusta" 5
+"#E76BF3" "Strongylocentrotus_purpuratus" 6
+"#EA8331" "urechis_caupo" 7
+"#7CAE00" - laevis - 8
+"#9590FF" "mytilus_californianus"  9
+"#39B600" "xenopus_tropicalis" 10
+"#A3A500" "Equus_caballus"   11
+"#00BB4E"  "Homo_sapiens" 12
+"#FF62BC" "Macaca_mulatta" 13
+"#00BAE0" "Callithrix_jacchus"  14
+"#00C1A3"  "monodelphis_domestica"  15
+"#FA62DB" "sus_scrofa" 16
+"#00BF7D" "mus_musculus"  17
+"#D89000" "drosophila_melanogaster" 18
+"#00BAE0" "danio_rerio" 19
+"#C77CFF" "Clytia_hemisphaerica_1"  20
+
+
+       1         2         3         4         5         6         7         8         9        10 
+"#F8766D" "#00B0F6" "#FF6A98" "#35A2FF" "#C09B00" "#E76BF3" "#EA8331" "#7CAE00" "#9590FF" "#39B600" 
+       11        12        13        14        15        16        17        18        19        20 
+"#A3A500" "#00BB4E" "#FF62BC" "#00BAE0" "#00C1A3" "#FA62DB" "#00BF7D" "#D89000" "#00BAE0" "#C77CFF" 
