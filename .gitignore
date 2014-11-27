@@ -1,3 +1,4 @@
+SEPTEMBER_2014/.ipynb_checkpoints
 Data_Averages.xlsx
 SpindleZooColumnKey.txt
 ZOODATA_140916.xlsx
@@ -23,4 +24,6 @@ SEPTEMBER_2014/.RData
 SEPTEMBER_2014/.Rhistory
 **.pages
 SEPTEMBER_2014/Rplot_colors.pdf
-
+Manuscript/**
+.sync/**
+**.xlsx
