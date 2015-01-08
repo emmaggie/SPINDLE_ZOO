@@ -27,9 +27,8 @@ SEPTEMBER_2014/.Rhistory
 **.pages
 SEPTEMBER_2014/Rplot_colors.pdf
 Manuscript/**
-.sync/**
 **.xlsx
 
 !/.gitignore
 Crawley_statistics.pdf
-R/
+R/**
