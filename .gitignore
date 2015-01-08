@@ -1,4 +1,4 @@
-.sync
+.sync/
 .sync/**
 SEPTEMBER_2014/.ipynb_checkpoints
 Data_Averages.xlsx
@@ -29,3 +29,7 @@ SEPTEMBER_2014/Rplot_colors.pdf
 Manuscript/**
 .sync/**
 **.xlsx
+
+!/.gitignore
+Crawley_statistics.pdf
+R/
