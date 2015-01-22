@@ -1,7 +1,8 @@
 #Try piecewise regression for fig 1. 
-
+#http://rkbookreviews.wordpress.com/2011/08/27/doing-bayesian-data-analysis-summary/
 #Try multivariate regression on meiotic and mitotic spindles for fig 3.
 #y is spindle size
+library(ggplot2)
 #################################################################################################
 #prepare data
 #################################################################################################
@@ -25,15 +26,24 @@ mitotic<-read.csv('../SEPTEMBER_2014/meiotic_false.csv',stringsAsFactors=FALSE)
 head(meiotic)
 
 original<-read.csv('../SEPTEMBER_2014/original.csv',stringsAsFactors=FALSE)
+################################################################################################
+################################################################################################
+#GET NUMERIC COLUMNS ONLY (MULTIPLE REGRESSION)
+#REMOVE DUPLICATES
+#GET METAPHASE SPINDLES ONLY
+#FIX DATA.TYPES and FILTER ON THEM
+################################################################################################
+################################################################################################
 
-################################################################################################
-#CLEAN UP THE DATA BEFORE MODELLING
-################################################################################################
 names(meiotic)
 for (col in names(meiotic)){
   print(col)
   print(class(meiotic[,col]))
 }
+
+################################################################################################
+#remove duplicates
+################################################################################################
 
 meiotic_for_MR<-meiotic
 names(meiotic_for_MR)
@@ -50,24 +60,180 @@ meiotic_for_MR<-meiotic_for_MR[,!names(meiotic_for_MR) %in% to_drop]
 #to_drop %in% names(meiotic_for_MR)
 
 meiotic_for_MR$polar_body_diameter_AVG<-apply(meiotic_for_MR[,c(27,28)],1,mean,na.rm=TRUE)
+names(meiotic_for_MR)
 meiotic_for_MR<-meiotic_for_MR[-c(27,28)]
 
-names(meiotic_for_MR)
-
-meiotic_for_MR$outer_aster_diameter_AVG<-apply(meiotic_for_MR[,c(23,24)],1,mean,na.rm=TRUE)
+meiotic_for_MR$outer_aster_diameter_AVG<-apply(meiotic_for_MR[,c(23,24)],1,mean, na.rm=TRUE)
 meiotic_for_MR<-meiotic_for_MR[-c(23,24)]
 
-for (col in names(meiotic_for_MR)){
-  print(col)
-  print(class(meiotic_for_MR[,col]))
+names(meiotic_for_MR)
+#NOW: all the dupes are removed
+################################################################################################
+#get metaphase spindles only: use meiotic_for_MR
+################################################################################################
+
+meiotic_for_MR$cell_diameter_um
+ggplot(data=meiotic_for_MR)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um),colour=stage))
+
+unique(meiotic_for_MR[(meiotic_for_MR$stage == 'm' | meiotic_for_MR$stage=='mI' | meiotic_for_MR$stage=='mII'),]$stage)
+
+meiotic_for_MR_met<-meiotic_for_MR[(meiotic_for_MR$stage == 'm' | meiotic_for_MR$stage=='mI' | meiotic_for_MR$stage=='mII'),]
+ggplot(data=meiotic_for_MR_met)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um),colour=stage))
+
+################################################################################################
+#fix data types & filter on them: use: meiotic_for_MR_met
+################################################################################################
+
+for (col in names(meiotic_for_MR_met)){
+  if(class(meiotic_for_MR_met[,col])=='integer'){
+    print(col)
+    print(class(meiotic_for_MR_met[,col]))
+  }
+} #not all _CATs are listed - fix it below
+
+names(meiotic_for_MR_met)
+class(meiotic_for_MR_met$stage)
+
+### REMOVING 'character' VARIABLES
+char_cols<-vector()
+for (i in 1:length(names(meiotic_for_MR_met))){
+  if(class(meiotic_for_MR_met[,i])=='character'){
+    char_cols[i]<-names(meiotic_for_MR_met)[i]
+    #print(col)
+    #print(class(meiotic[,col]))
+  }
+}
+char_cols<-char_cols[!is.na(char_cols)]
+
+!names(meiotic_for_MR_met) %in% char_cols
+names(meiotic_for_MR_met[,!names(meiotic_for_MR_met) %in% char_cols])
+meiotic_for_MR_met_num<-meiotic_for_MR_met[,!names(meiotic_for_MR_met) %in% char_cols]
+###############################################
+#use: meiotic_for_MR_met_num !!!!!
+### FIXING data types for _CAT columns
+names(meiotic_for_MR_met_num)
+grep('_CAT',names(meiotic_for_MR_met_num),value = TRUE)
+CAT_cols<-names(meiotic_for_MR_met_num[,grep('_CAT',names(meiotic_for_MR_met_num),value = TRUE)])
+
+for(i in 1:length(CAT_cols)){
+  #print(CAT_cols[i])
+  #print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
+  meiotic_for_MR_met_num[,CAT_cols[i]]<-as.integer(meiotic_for_MR_met_num[,CAT_cols[i]])
 }
 
-grep('_CAT',names(meiotic_for_MR),value = TRUE)
+for(i in 1:length(CAT_cols)){
+  print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
+}
 
-for(col in names(meiotic_for_MR)){
-  if(class(meiotic_for_MR[,col])=='numeric'){
-    print(col)
-    print(class(meiotic_for_MR[,col]))
+integer_cols<-vector() #this one does not really work
+for (i in 1:length(names(meiotic_for_MR_met_num))){
+  if(class(meiotic_for_MR_met_num[,i])=='integer'){
+    integer_cols[i]<-names(meiotic_for_MR_met_num)[i]
   }
 }
 
+names(meiotic_for_MR_met_num)
+integer_cols #not metaphase_plate_aspect_ratio_um
+integer_cols<-integer_cols[!is.na(integer_cols)]
+##add a few that were not captured 
+integer_cols<-c(integer_cols,'chromosomes',"num_of_cells_NUM")
+
+meiotic_for_MR_met_num<-meiotic_for_MR_met_num[!names(meiotic_for_MR_met_num) %in% integer_cols]
+names(meiotic_for_MR_met_num)
+
+
+for (col in names(meiotic_for_MR_met_num)){
+#  print(col)
+  print(class(meiotic_for_MR_met_num[,col]))
+}
+
+
+################################################################################################
+################################################################################################
+#TRY MULTIPLE REGRESSION USING REMAINING VALUES
+#10.13 Multiple regression
+#Crawley, Michael J. (2012-11-07). The R Book (Kindle Location 17300). Wiley. Kindle Edition. 
+#normality is a problem
+#meiotic_for_MR_met_num
+################################################################################################
+################################################################################################
+head(meiotic_for_MR_met_num)
+names(meiotic_for_MR_met_num)
+dim(meiotic_for_MR_met_num)
+#http://docs.ggplot2.org/current/geom_histogram.html
+ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=spindle_length_poles_um))
+ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=spindle_length_poles_um),binwidth=1)
+ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=spindle_length_poles_um,y=..density..),binwidth=1)+geom_density(aes(spindle_length_poles_um),colour='red')
+shapiro.test(meiotic_for_MR_met_num$spindle_length_poles_um) #p-value = 0.003256
+qqnorm(meiotic_for_MR_met_num$spindle_length_poles_um)
+qqline(meiotic_for_MR_met_num$spindle_length_poles_um)
+#this is not too good
+?pt
+
+###############################################
+#check out skeweness and kurtosis
+skew<-function(x){
+  m3<-sum((x-mean(x,na.rm=TRUE))^3,na.rm=TRUE)/length(x)
+  s3<-sqrt(var(x,na.rm=TRUE))^3
+  skew<-m3/s3
+  se_gamma<-sqrt(6/length(x))  
+  t=skew/se_gamma
+  #pt is cumulative distribution function (tests equal or less than value given)
+  prob=1-pt(t,length(x)-2)
+  return(list(skew=skew,se_gamma=se_gamma,prob=prob))
+  }
+skew(meiotic_for_MR_met_num$spindle_length_poles_um)
+#test significance
+
+
+
+###############################################
+###Trying some transformations:
+#1
+ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=log2(spindle_length_poles_um),y=..density..))#+geom_density(aes(spindle_length_poles_um),colour='red')
+shapiro.test(log(meiotic_for_MR_met_num$spindle_length_poles_um)) #p-value = 0.003256
+qqnorm(log(meiotic_for_MR_met_num$spindle_length_poles_um))
+qqline(log(meiotic_for_MR_met_num$spindle_length_poles_um))
+#worse
+
+#2
+ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=sqrt(spindle_length_poles_um),y=..density..))#+geom_density(aes(spindle_length_poles_um),colour='red')
+shapiro.test(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um)) #1.136e-06
+qqnorm(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um))
+qqline(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um))
+#worse
+
+
+
+#the problem is that the spindle length data is bimodal and fails normality test
+
+#step 1: look ar correleations
+getwd()
+pdf('p6_1_MR_pairs_of_variables_1.pdf')
+pairs(meiotic_for_MR_met_num,pch=16)
+dev.off()
+pdf('p6_1_MR_pairs_of_variables_2.pdf')
+pairs(meiotic_for_MR_met_num,panel=panel.smooth,pch=16)
+dev.off()
+
+#step 2: try generalized additive model NOT 9!!!! to decide on curvature
+#http://ecology.msu.montana.edu/labdsv/R/labs/lab5/lab5.html
+library(mgcv)
+names(meiotic_for_MR_met_num)
+model.1<-gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1])+s(meiotic_for_MR_met_num[,2]))
++s(meiotic_for_MR_met_num[,3]))
+             
+             +s(meiotic_for_MR_met_num[,4])
+             
+             
+             +s(meiotic_for_MR_met_num[,5])+s(meiotic_for_MR_met_num[,6])+s(meiotic_for_MR_met_num[,7])+s(meiotic_for_MR_met_num[,8])+s(meiotic_for_MR_met_num[,11)]+s(meiotic_for_MR_met_num[,12])+s(meiotic_for_MR_met_num[,13])+s(meiotic_for_MR_met_num[,14])+s(meiotic_for_MR_met_num[,15]))
+plot(model.1)
+?gam
+#step 3: picking interaction terms - trees
+library(tree)
+names(meiotic_for_MR_met_num[,c(1:8,10:15)])
+
+model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
+plot(model.2)
+text(model.2,cex=0.8)
+?text()

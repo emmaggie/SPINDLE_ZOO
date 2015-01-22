@@ -567,4 +567,4 @@ plot_S3F<-plot_S3F+scale_color_manual(values = mapping_vector2)#,labels=names(ma
 plot_S3F
 plot_S3F<-plot_S3F+annotate('text',label=paste("R^2==",(signif(summary.lm(lm(S3F_means$spindle_length_poles_um~S3F_means$genome_over_chr_no))$r.squared,3))),x=150,y=42,parse=TRUE)
 plot_S3F
-ggsave(filename='../Manuscript/Figures/S3/S3F_with_mean_1p5_4_Rsq.pdf',useDingbats=FALSE)
+#ggsave(filename='../Manuscript/Figures/S3/S3F_with_mean_1p5_4_Rsq.pdf',useDingbats=FALSE)
