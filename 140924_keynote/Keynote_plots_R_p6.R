@@ -287,15 +287,18 @@ names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #
 model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
 plot(model.2)
 text(model.2,cex=0.7)
-summary(model.2)$used
+class(summary(model.2)$used)
 attr(model.2$terms,'term.labels')
-#str(summary(model.2))
 
+class(as.character(summary(model.2)$used))
+
+#str(summary(model.2))
 #gettig index of the relevant terms
 most_rel_terms<-function(list_of_terms){
-  for(i in list_of_terms){
-    
+  for(i in as.character(list_of_terms)){
+    print(list_of_terms[i])
   }
-  
-  return()
+  #return()
 }
+most_rel_terms(as.character(summary(model.2)$used))
+ 
