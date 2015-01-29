@@ -186,7 +186,18 @@ skew(meiotic_for_MR_met_num$spindle_length_poles_um)
 #test significance
 
 
+kurtosis<-function(x){
+    m4<-sum((x-mean(x,na.rm=TRUE))^4,na.rm=TRUE)/length(x)
+    s4<-var(x,na.rm=TRUE)^2
+    kurtosis=m4/s4-3
+    se_gamma<-sqrt(24/length(x))
+    t=kurtosis/se_gamma
+    prob=1-pt(t,length(x)-2)
+    return(list(kurtosis=kurtosis,se_gamma=se_gamma,prob=prob))
+}
 
+kurtosis(meiotic_for_MR_met_num$spindle_length_poles_um)
+#no significant skeweness, nor kurtosis
 ###############################################
 ###Trying some transformations:
 #1
@@ -216,24 +227,75 @@ pdf('p6_1_MR_pairs_of_variables_2.pdf')
 pairs(meiotic_for_MR_met_num,panel=panel.smooth,pch=16)
 dev.off()
 
-#step 2: try generalized additive model NOT 9!!!! to decide on curvature
+#step 2: checking curvature: try generalized additive model NOT 9!!!! to decide on curvature
 #http://ecology.msu.montana.edu/labdsv/R/labs/lab5/lab5.html
 library(mgcv)
 names(meiotic_for_MR_met_num)
-model.1<-gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1])+s(meiotic_for_MR_met_num[,2]))
-+s(meiotic_for_MR_met_num[,3]))
-             
-             +s(meiotic_for_MR_met_num[,4])
-             
-             
-             +s(meiotic_for_MR_met_num[,5])+s(meiotic_for_MR_met_num[,6])+s(meiotic_for_MR_met_num[,7])+s(meiotic_for_MR_met_num[,8])+s(meiotic_for_MR_met_num[,11)]+s(meiotic_for_MR_met_num[,12])+s(meiotic_for_MR_met_num[,13])+s(meiotic_for_MR_met_num[,14])+s(meiotic_for_MR_met_num[,15]))
+model.1<-gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1]))
+#the one below won't work - only the first term works 
+#try to do them individually
+
+
+curvature<-function(data_frame,resp_var_name,expl_var_name){
+  model<-gam(unlist(data_frame[resp_var_name]) ~ s(unlist(data_frame[expl_var_name])))
+  return(model)
+}
+
+#plot(gam(unlist(meiotic_for_MR_met_num["spindle_length_poles_um"])~s(unlist(meiotic_for_MR_met_num["cell_diameter_um"]))))
+#class(meiotic_for_MR_met_num["spindle_length_poles_um"]) #data.frame
+#class(unlist(meiotic_for_MR_met_num["spindle_length_poles_um"])) #data.frame
+#class(meiotic_for_MR_met_num$spindle_length_poles_um) #numeric
+
+#meiotic_for_MR_met_num["cell_diameter_um"]
+#curvature(meiotic_for_MR_met_num,"spindle_length_poles_um","cell_diameter_um")
+
+#model.1<-try(gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1])+s(meiotic_for_MR_met_num[,2])+s(meiotic_for_MR_met_num[,3])+s(meiotic_for_MR_met_num[,4])+s(meiotic_for_MR_met_num[,5])+s(meiotic_for_MR_met_num[,6])+s(meiotic_for_MR_met_num[,7])+s(meiotic_for_MR_met_num[,8])+s(meiotic_for_MR_met_num[,11])+s(meiotic_for_MR_met_num[,12])+s(meiotic_for_MR_met_num[,13])+s(meiotic_for_MR_met_num[,14])+s(meiotic_for_MR_met_num[,15])),silent=TRUE)
 plot(model.1)
-?gam
+#?gam
+names(meiotic_for_MR_met_num)
+
+listing_curvatures<-function(data_frame){
+  list_of_gams<-vector('list',length(names(data_frame)))
+  for(i in 1:length(names(data_frame))){
+    print(names(data_frame)[i])
+    
+    list_of_gams[[i]]<-try(curvature(data_frame,"spindle_length_poles_um",names(data_frame)[i]))
+    }
+  list_of_gams<-setNames(list_of_gams,names(data_frame))  
+  return(list_of_gams)
+}
+list_of_gams<-listing_curvatures(meiotic_for_MR_met_num)
+#length(list_of_gams) #15
+#length(names(meiotic_for_MR_met_num)) #15
+#class(names(meiotic_for_MR_met_num))
+names(meiotic_for_MR_met_num)
+names(list_of_gams)
+
+gam_plotter<-function(list_of_models){
+  for(i in 1:length(list_of_models)){
+    pdf(paste(i,'_','gam_',names(list_of_models)[i],'.pdf',sep=""))
+    try(plot(list_of_models[[i]]),silent=TRUE)
+    dev.off()
+  }
+}
+#gam_plotter(list_of_gams) #run to repeat plotting
+
 #step 3: picking interaction terms - trees
 library(tree)
-names(meiotic_for_MR_met_num[,c(1:8,10:15)])
+names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #
 
 model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
 plot(model.2)
-text(model.2,cex=0.8)
-?text()
+text(model.2,cex=0.7)
+summary(model.2)$used
+attr(model.2$terms,'term.labels')
+#str(summary(model.2))
+
+#gettig index of the relevant terms
+most_rel_terms<-function(list_of_terms){
+  for(i in list_of_terms){
+    
+  }
+  
+  return()
+}
