@@ -1,205 +1,20 @@
-#biocLite('DESeq')
-library(DESeq)
-complete_data_set<-read.table(file="/Volumes/Magdalenas_Bigger_Boy/SEQ_DATA_2011/4_ANALYSIS_2012/5_LOCAL_ANALYSIS_Deep_SEQ_Data_Trop/Analysis/Introns/INTRONS_scatterplots/eff_counts_merged_all_xprs_files_introns_UCSC_10242014.txt", header=TRUE, stringsAsFactors = FALSE)
-head(complete_data_set)
-new_complete_data_set<-round(complete_data_set[c(1,2,3,4,5,6)])
-head(new_complete_data_set)
-names(new_complete_data_set)
-#[1] "eff_counts_input1" "eff_counts_input2" "eff_counts_IP1"    "eff_counts_IP2"
-deSeq_dataset<-newCountDataSet(new_complete_data_set[c(5,6,3,4)],c('cond1','cond1','cond2','cond2')) #mock 1, mock 2, IP 1, IP 2
-deSeq_dataset<-estimateSizeFactors(deSeq_dataset)
-deSeq_dataset<-estimateDispersions(deSeq_dataset,method='pooled',fitType='local')
-de<-nbinomTest(deSeq_dataset,'cond1','cond2')
-plot3<-ggplot()
-plot3<-plot3+geom_point(data=de,aes(x=log10(de$baseMeanA),y=log10(de$baseMeanB)),colour=ifelse(de$pval < 0.05 & de$log2FoldChange>0,"red",ifelse(de$pval < 0.05 & de$log2FoldChange<0,'blue',"black")),alpha=0.5)
-plot3+labs(title="Intron enrichment in IP fraction",x="log10(Mean effective read count -mock)",y='log10(Mean effective read count - IP)')
-plot3mod<-ggplot()
-plot3mod<-plot3mod+geom_point(data=de,aes(x=log10(de$baseMeanA),y=log10(de$baseMeanB),colour= de$pval < 0.05 & de$log2FoldChange>0,size = de$pval < 0.05 & de$log2FoldChange>0 ),alpha=0.5)
-plot3mod<-plot3mod+scale_color_manual(name='significant',values=setNames(c('red','black'),c(TRUE,FALSE)))
-plot3mod<-plot3mod+scale_size_manual(name='significant_2',values=setNames(c(4,2),c(TRUE,FALSE)))
-plot3mod+labs(title="Intron enrichment in IP fraction",x="log10(Mean effective read count -mock)",y='log10(Mean effective read count - IP)')
-ggsave("/Volumes/Magdalenas_Bigger_Boy/SEQ_DATA_2011/4_ANALYSIS_2012/5_LOCAL_ANALYSIS_Deep_SEQ_Data_Trop/Analysis/Introns/INTRONS_scatterplots/RH_2.png")
-1.5*14
-460/25
-32000/80
-3.2e6
-3.2e6/2e5
-(2e5)/15000
-2e5*34
-374/80
-352/80
-2000/2.5
-1000/50
-1000/10
-2.5*342
-855*0.2
-200/100
-200/20
-200/800
-1000/50
-200/20
-1.25*75
-93.75*10/1000
-390+380
-7000+770
-/16
-7770/16
-25/0.5
-10/50
-0.25*342
-25/0.5
-40/50
-100/37
-600/37
-200/37
-237/10
-30/0.1
-130/300
-130*8
-1040/300
-0.9*800/24
-800/30
-10-0.08-2-0.4-0.5-0.2
-10-0.08-2-5-0.5-0.2
-9.25+9.25
-9.25+9.25+192.20+2+37
-350*0.37
-350/37
-350+3500
-3850/16
-3850+3850/16
-2000/250
-4091/8
-25/0.5
-460/50
-4600/50
-200/25
-2000/8
-50/55
-5/50
-55/50
-50*1.4
-50/12
-2**5
-2**6
-64*10
-0.08*9
-0.2*9
-6.82*9
-2.2*9
-20*1.1
-30/5
-30-0.4-6-0.2-0.4-20
-0.5+0.2+5+2.2+2+0.08
-50/12
-20/4.1666
-20-0.5-4.8-1
-20-0.5-4-0.4-0.4-1
-20-0.5-4-0.4-0.4-1
-20-0.5-4.8-1
-vvnv b zxcxzzxxcvbnxzcvbnmvbnerfgrtft5rfwq34eu7i8oy6htyujkm,./m,
-30*0.
-30*0.6
-30*1.3
-39-18
-1e-12
-1e-3
-(1e-12)*0.0051
-(1e-12)*0.0051*(1e-6)
-(1e-12)*0.0051/(1e-6)
-(1e-12)*0.0076/(1e-6)
-300/8
-1528/2001
-473/2001
-1528/2001/2
-chisq.test(c(886,642,441,32),p=c(0.38,0.38,0.12,0.12))
-library(ggplot2)
-mtcars
-head(mtcars)
-unique(mtcars$vs)
-unique(mtcars$am)
-length(mtcars)
-dim(mtcars)
-names(mtcars)
-names(mtcars[,1])
-(mtcars[,1])
-(mtcars[,1].name)
-(name(mtcars[,1]))
-?mean
-?multiplot
-# Multiple plot function
-#
-# ggplot objects can be passed in ..., or to plotlist (as a list of ggplot objects)
-# - cols:   Number of columns in layout
-# - layout: A matrix specifying the layout. If present, 'cols' is ignored.
-#
-# If the layout is something like matrix(c(1,2,3,3), nrow=2, byrow=TRUE),
-# then plot 1 will go in the upper left, 2 will go in the upper right, and
-# 3 will go all the way across the bottom.
-#
-multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
-require(grid)
-# Make a list from the ... arguments and plotlist
-plots <- c(list(...), plotlist)
-numPlots = length(plots)
-# If layout is NULL, then use 'cols' to determine layout
-if (is.null(layout)) {
-# Make the panel
-# ncol: Number of columns of plots
-# nrow: Number of rows needed, calculated from # of cols
-layout <- matrix(seq(1, cols * ceiling(numPlots/cols)),
-ncol = cols, nrow = ceiling(numPlots/cols))
-}
-if (numPlots==1) {
-print(plots[[1]])
-} else {
-# Set up the page
-grid.newpage()
-pushViewport(viewport(layout = grid.layout(nrow(layout), ncol(layout))))
-# Make each plot, in the correct location
-for (i in 1:numPlots) {
-# Get the i,j matrix positions of the regions that contain this subplot
-matchidx <- as.data.frame(which(layout == i, arr.ind = TRUE))
-print(plots[[i]], vp = viewport(layout.pos.row = matchidx$row,
-layout.pos.col = matchidx$col))
-}
-}
-}
-?list
-list(50)
-list()
-plot_list=list()
-for (i in 1:length(dfo_no_CAT_NUM)){
-#print(mean(dfo_no_CAT_NUM[,i],na.rm=TRUE))
-[[i]]<-i
-}
-biocLite()
-?biocLite
-??biocLite
-source("http://bioconductor.org/biocLite.R")
-0.168/2
-1600/400
-200/80
-25/0.1
-500/250
-300/500
-300/200
-100/80
-90/80
-90/80/2
-20*40*16
-20*40
-13.6*0.4/24.5
+#Try piecewise regression for fig 1. 
+#http://rkbookreviews.wordpress.com/2011/08/27/doing-bayesian-data-analysis-summary/
+#Try multivariate regression on meiotic and mitotic spindles for fig 3.
+#y is spindle size
 library(ggplot2)
 #################################################################################################
 #prepare data
 #################################################################################################
+
+
 setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/140924_keynote')
 getwd()
 ################################################################################################
 #DATA SETS
 #READ-IN DATA
 ################################################################################################
+
 dir()
 list.files('../SEPTEMBER_2014/')
 #mitotic_anaphase is the file of interest
@@ -209,6 +24,7 @@ mitotic<-read.csv('../SEPTEMBER_2014/meiotic_false.csv',stringsAsFactors=FALSE)
 #mitotic_anaphase<-read.csv('../SEPTEMBER_2014/mitotic_anaphase.csv')
 #mitotic_anaphase$organism<-as.character(mitotic_anaphase$organism)
 head(meiotic)
+
 original<-read.csv('../SEPTEMBER_2014/original.csv',stringsAsFactors=FALSE)
 ################################################################################################
 ################################################################################################
@@ -218,60 +34,77 @@ original<-read.csv('../SEPTEMBER_2014/original.csv',stringsAsFactors=FALSE)
 #FIX DATA.TYPES and FILTER ON THEM
 ################################################################################################
 ################################################################################################
+
 names(meiotic)
 for (col in names(meiotic)){
-print(col)
-print(class(meiotic[,col]))
+  print(col)
+  print(class(meiotic[,col]))
 }
+
 ################################################################################################
 #remove duplicates
 ################################################################################################
+
 meiotic_for_MR<-meiotic
 names(meiotic_for_MR)
 meiotic_for_MR$astere.to.pole_distance_AVG<-apply(meiotic_for_MR[,c(1,2)],1,mean,rm=TRUE)
+
 #http://stackoverflow.com/questions/4605206/drop-columns-r-data-frame
 names(meiotic_for_MR)
 meiotic_for_MR<-meiotic_for_MR[-c(1,2)]
+
 meiotic_for_MR$inner_aster_diameter_AVG<-apply(meiotic_for_MR[,c(13,14)],1,mean,na.rm=TRUE)
+
 to_drop<-c('inner_aster_diameter_1_um',"inner_aster_diameter_2_um")
 meiotic_for_MR<-meiotic_for_MR[,!names(meiotic_for_MR) %in% to_drop]
 #to_drop %in% names(meiotic_for_MR)
+
 meiotic_for_MR$polar_body_diameter_AVG<-apply(meiotic_for_MR[,c(27,28)],1,mean,na.rm=TRUE)
 names(meiotic_for_MR)
 meiotic_for_MR<-meiotic_for_MR[-c(27,28)]
+
 meiotic_for_MR$outer_aster_diameter_AVG<-apply(meiotic_for_MR[,c(23,24)],1,mean, na.rm=TRUE)
 meiotic_for_MR<-meiotic_for_MR[-c(23,24)]
+
 names(meiotic_for_MR)
 #NOW: all the dupes are removed
 ################################################################################################
 #get metaphase spindles only: use meiotic_for_MR
 ################################################################################################
+
 meiotic_for_MR$cell_diameter_um
 ggplot(data=meiotic_for_MR)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um),colour=stage))
+
 unique(meiotic_for_MR[(meiotic_for_MR$stage == 'm' | meiotic_for_MR$stage=='mI' | meiotic_for_MR$stage=='mII'),]$stage)
+
 meiotic_for_MR_met<-meiotic_for_MR[(meiotic_for_MR$stage == 'm' | meiotic_for_MR$stage=='mI' | meiotic_for_MR$stage=='mII'),]
 ggplot(data=meiotic_for_MR_met)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um),colour=stage))
+
 ################################################################################################
 #fix data types & filter on them: use: meiotic_for_MR_met
 ################################################################################################
+
 for (col in names(meiotic_for_MR_met)){
-if(class(meiotic_for_MR_met[,col])=='integer'){
-print(col)
-print(class(meiotic_for_MR_met[,col]))
-}
+  if(class(meiotic_for_MR_met[,col])=='integer'){
+    print(col)
+    print(class(meiotic_for_MR_met[,col]))
+  }
 } #not all _CATs are listed - fix it below
+
 names(meiotic_for_MR_met)
 class(meiotic_for_MR_met$stage)
+
 ### REMOVING 'character' VARIABLES
 char_cols<-vector()
 for (i in 1:length(names(meiotic_for_MR_met))){
-if(class(meiotic_for_MR_met[,i])=='character'){
-char_cols[i]<-names(meiotic_for_MR_met)[i]
-#print(col)
-#print(class(meiotic[,col]))
-}
+  if(class(meiotic_for_MR_met[,i])=='character'){
+    char_cols[i]<-names(meiotic_for_MR_met)[i]
+    #print(col)
+    #print(class(meiotic[,col]))
+  }
 }
 char_cols<-char_cols[!is.na(char_cols)]
+
 !names(meiotic_for_MR_met) %in% char_cols
 names(meiotic_for_MR_met[,!names(meiotic_for_MR_met) %in% char_cols])
 meiotic_for_MR_met_num<-meiotic_for_MR_met[,!names(meiotic_for_MR_met) %in% char_cols]
@@ -281,36 +114,45 @@ meiotic_for_MR_met_num<-meiotic_for_MR_met[,!names(meiotic_for_MR_met) %in% char
 names(meiotic_for_MR_met_num)
 grep('_CAT',names(meiotic_for_MR_met_num),value = TRUE)
 CAT_cols<-names(meiotic_for_MR_met_num[,grep('_CAT',names(meiotic_for_MR_met_num),value = TRUE)])
+
 for(i in 1:length(CAT_cols)){
-#print(CAT_cols[i])
-#print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
-meiotic_for_MR_met_num[,CAT_cols[i]]<-as.integer(meiotic_for_MR_met_num[,CAT_cols[i]])
+  #print(CAT_cols[i])
+  #print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
+  meiotic_for_MR_met_num[,CAT_cols[i]]<-as.integer(meiotic_for_MR_met_num[,CAT_cols[i]])
 }
+
 for(i in 1:length(CAT_cols)){
-print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
+  print(class(meiotic_for_MR_met_num[,CAT_cols[i]]))
 }
+
 integer_cols<-vector() #this one does not really work
 for (i in 1:length(names(meiotic_for_MR_met_num))){
-if(class(meiotic_for_MR_met_num[,i])=='integer'){
-integer_cols[i]<-names(meiotic_for_MR_met_num)[i]
+  if(class(meiotic_for_MR_met_num[,i])=='integer'){
+    integer_cols[i]<-names(meiotic_for_MR_met_num)[i]
+  }
 }
-}
+
 names(meiotic_for_MR_met_num)
 integer_cols #not metaphase_plate_aspect_ratio_um
 integer_cols<-integer_cols[!is.na(integer_cols)]
-##add a few that were not captured
+##add a few that were not captured 
 integer_cols<-c(integer_cols,'chromosomes',"num_of_cells_NUM")
+
 meiotic_for_MR_met_num<-meiotic_for_MR_met_num[!names(meiotic_for_MR_met_num) %in% integer_cols]
 names(meiotic_for_MR_met_num)
+
+
 for (col in names(meiotic_for_MR_met_num)){
 #  print(col)
-print(class(meiotic_for_MR_met_num[,col]))
+  print(class(meiotic_for_MR_met_num[,col]))
 }
+
+
 ################################################################################################
 ################################################################################################
 #TRY MULTIPLE REGRESSION USING REMAINING VALUES
 #10.13 Multiple regression
-#Crawley, Michael J. (2012-11-07). The R Book (Kindle Location 17300). Wiley. Kindle Edition.
+#Crawley, Michael J. (2012-11-07). The R Book (Kindle Location 17300). Wiley. Kindle Edition. 
 #normality is a problem
 #meiotic_for_MR_met_num
 ################################################################################################
@@ -327,29 +169,33 @@ qqnorm(meiotic_for_MR_met_num$spindle_length_poles_um)
 qqline(meiotic_for_MR_met_num$spindle_length_poles_um)
 #this is not too good
 ?pt
+
 ###############################################
 #check out skeweness and kurtosis
 skew<-function(x){
-m3<-sum((x-mean(x,na.rm=TRUE))^3,na.rm=TRUE)/length(x)
-s3<-sqrt(var(x,na.rm=TRUE))^3
-skew<-m3/s3
-se_gamma<-sqrt(6/length(x))
-t=skew/se_gamma
-#pt is cumulative distribution function (tests equal or less than value given)
-prob=1-pt(t,length(x)-2)
-return(list(skew=skew,se_gamma=se_gamma,prob=prob))
-}
+  m3<-sum((x-mean(x,na.rm=TRUE))^3,na.rm=TRUE)/length(x)
+  s3<-sqrt(var(x,na.rm=TRUE))^3
+  skew<-m3/s3
+  se_gamma<-sqrt(6/length(x))  
+  t=skew/se_gamma
+  #pt is cumulative distribution function (tests equal or less than value given)
+  prob=1-pt(t,length(x)-2)
+  return(list(skew=skew,se_gamma=se_gamma,prob=prob))
+  }
 skew(meiotic_for_MR_met_num$spindle_length_poles_um)
 #test significance
+
+
 kurtosis<-function(x){
-m4<-sum((x-mean(x,na.rm=TRUE))^4,na.rm=TRUE)/length(x)
-s4<-var(x,na.rm=TRUE)^2
-kurtosis=m4/s4-3
-se_gamma<-sqrt(24/length(x))
-t=kurtosis/se_gamma
-prob=1-pt(t,length(x)-2)
-return(list(kurtosis=kurtosis,se_gamma=se_gamma,prob=prob))
+    m4<-sum((x-mean(x,na.rm=TRUE))^4,na.rm=TRUE)/length(x)
+    s4<-var(x,na.rm=TRUE)^2
+    kurtosis=m4/s4-3
+    se_gamma<-sqrt(24/length(x))
+    t=kurtosis/se_gamma
+    prob=1-pt(t,length(x)-2)
+    return(list(kurtosis=kurtosis,se_gamma=se_gamma,prob=prob))
 }
+
 kurtosis(meiotic_for_MR_met_num$spindle_length_poles_um)
 #no significant skeweness, nor kurtosis
 ###############################################
@@ -360,13 +206,18 @@ shapiro.test(log(meiotic_for_MR_met_num$spindle_length_poles_um)) #p-value = 0.0
 qqnorm(log(meiotic_for_MR_met_num$spindle_length_poles_um))
 qqline(log(meiotic_for_MR_met_num$spindle_length_poles_um))
 #worse
+
 #2
 ggplot(data=meiotic_for_MR_met_num)+geom_histogram(aes(x=sqrt(spindle_length_poles_um),y=..density..))#+geom_density(aes(spindle_length_poles_um),colour='red')
 shapiro.test(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um)) #1.136e-06
 qqnorm(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um))
 qqline(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um))
 #worse
+
+
+
 #the problem is that the spindle length data is bimodal and fails normality test
+
 #step 1: look ar correleations
 getwd()
 pdf('p6_1_MR_pairs_of_variables_1.pdf')
@@ -375,35 +226,43 @@ dev.off()
 pdf('p6_1_MR_pairs_of_variables_2.pdf')
 pairs(meiotic_for_MR_met_num,panel=panel.smooth,pch=16)
 dev.off()
+
 #step 2: checking curvature: try generalized additive model NOT 9!!!! to decide on curvature
 #http://ecology.msu.montana.edu/labdsv/R/labs/lab5/lab5.html
 library(mgcv)
 names(meiotic_for_MR_met_num)
 model.1<-gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1]))
-#the one below won't work - only the first term works
+#the one below won't work - only the first term works 
 #try to do them individually
+
+
 curvature<-function(data_frame,resp_var_name,expl_var_name){
-model<-gam(unlist(data_frame[resp_var_name]) ~ s(unlist(data_frame[expl_var_name])))
-return(model)
+  model<-gam(unlist(data_frame[resp_var_name]) ~ s(unlist(data_frame[expl_var_name])))
+  return(model)
 }
+
 #plot(gam(unlist(meiotic_for_MR_met_num["spindle_length_poles_um"])~s(unlist(meiotic_for_MR_met_num["cell_diameter_um"]))))
 #class(meiotic_for_MR_met_num["spindle_length_poles_um"]) #data.frame
 #class(unlist(meiotic_for_MR_met_num["spindle_length_poles_um"])) #data.frame
 #class(meiotic_for_MR_met_num$spindle_length_poles_um) #numeric
+
 #meiotic_for_MR_met_num["cell_diameter_um"]
 #curvature(meiotic_for_MR_met_num,"spindle_length_poles_um","cell_diameter_um")
+
 #model.1<-try(gam(meiotic_for_MR_met_num$spindle_length_poles_um ~ s(meiotic_for_MR_met_num[,1])+s(meiotic_for_MR_met_num[,2])+s(meiotic_for_MR_met_num[,3])+s(meiotic_for_MR_met_num[,4])+s(meiotic_for_MR_met_num[,5])+s(meiotic_for_MR_met_num[,6])+s(meiotic_for_MR_met_num[,7])+s(meiotic_for_MR_met_num[,8])+s(meiotic_for_MR_met_num[,11])+s(meiotic_for_MR_met_num[,12])+s(meiotic_for_MR_met_num[,13])+s(meiotic_for_MR_met_num[,14])+s(meiotic_for_MR_met_num[,15])),silent=TRUE)
 plot(model.1)
 #?gam
 names(meiotic_for_MR_met_num)
+
 listing_curvatures<-function(data_frame){
-list_of_gams<-vector('list',length(names(data_frame)))
-for(i in 1:length(names(data_frame))){
-print(names(data_frame)[i])
-list_of_gams[[i]]<-try(curvature(data_frame,"spindle_length_poles_um",names(data_frame)[i]))
-}
-list_of_gams<-setNames(list_of_gams,names(data_frame))
-return(list_of_gams)
+  list_of_gams<-vector('list',length(names(data_frame)))
+  for(i in 1:length(names(data_frame))){
+    print(names(data_frame)[i])
+    
+    list_of_gams[[i]]<-try(curvature(data_frame,"spindle_length_poles_um",names(data_frame)[i]))
+    }
+  list_of_gams<-setNames(list_of_gams,names(data_frame))  
+  return(list_of_gams)
 }
 list_of_gams<-listing_curvatures(meiotic_for_MR_met_num)
 #length(list_of_gams) #15
@@ -411,102 +270,37 @@ list_of_gams<-listing_curvatures(meiotic_for_MR_met_num)
 #class(names(meiotic_for_MR_met_num))
 names(meiotic_for_MR_met_num)
 names(list_of_gams)
+
 gam_plotter<-function(list_of_models){
-for(i in 1:length(list_of_models)){
-pdf(paste(i,'_','gam_',names(list_of_models)[i],'.pdf',sep=""))
-try(plot(list_of_models[[i]]),silent=TRUE)
-dev.off()
+  for(i in 1:length(list_of_models)){
+    pdf(paste(i,'_','gam_',names(list_of_models)[i],'.pdf',sep=""))
+    try(plot(list_of_models[[i]]),silent=TRUE)
+    dev.off()
+  }
 }
-}
+#gam_plotter(list_of_gams) #run to repeat plotting
+
+#step 3: picking interaction terms - trees
 library(tree)
 names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #
+
 model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
 plot(model.2)
 text(model.2,cex=0.7)
-summary(model.2)$used
+class(summary(model.2)$used)
 attr(model.2$terms,'term.labels')
-?grep()
-grep(summary(model.2)$used,names(meiotic_for_MR_met_num))
-most_rel_terms<-function(list_of_terms){
-for(i in list_of_terms){
-print(list_of_terms[[i]])
-}
-}
-summary(model.2)$used
-most_rel_terms<-function(list_of_terms){
-for(i in list_of_terms){
-print(list_of_terms[[i]])
-}
-#return()
-}
-most_rel_terms(summary(model.2)$used)
-summary(model.2)$used
-most_rel_terms(summary(model.2)$used)
-most_rel_terms(summary(model.2)$used)
-summary(model.2)$used
-most_rel_terms<-function(list_of_terms){
-for(i in list_of_terms){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms(summary(model.2)$used)
-class(summary(model.2)$used)
-most_rel_terms<-function(as.character(list_of_terms)){
-for(i in list_of_terms){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms<-function(as.character(list_of_terms)){
-for(i in list_of_terms){
-print(list_of_terms[i])
-}
-gettig index of the relevant terms
-most_rel_terms<-function(as.character(list_of_terms)){
-for(i in list_of_terms){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms<-function(list_of_terms){
-for(i in list_of_terms){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms(summary(model.2)$used)
-most_rel_terms<-function(list_of_terms){
-for(i in as.charatcter(list_of_terms)){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms(summary(model.2)$used)
-most_rel_terms<-function(list_of_terms){
-for(i in as.character(list_of_terms)){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms(summary(model.2)$used)
-summary(model.2)$used
-class(summary(model.2)$used)
-most_rel_terms(as.character(summary(model.2)$used))
-most_rel_terms<-function(list_of_terms){
-for(i in as.character(list_of_terms)){
-print(list_of_terms[i])
-}
-#return()
-}
-most_rel_terms(as.character(summary(model.2)$used))
-for(i in as.character(summary(model.2)$used)){
-print(summary(model.2)$used[i])
-}
-class(summary(model.2)$used)
-str(summary(model.2)$used)
-unlist(summary(model.2)$used)
-class(unlist(summary(model.2)$used))
-class(unlist(summary(model.2)$used))
+
 class(as.character(summary(model.2)$used))
-as.character(summary(model.2)$used)
+
+#str(summary(model.2))
+#gettig index of the relevant terms
+most_rel_terms<-function(list_of_terms){
+  for(i in as.character(list_of_terms)){
+    print(list_of_terms[i])
+  }
+  #return()
+}
+most_rel_terms(as.character(summary(model.2)$used))
+ 
+ggplot(data=meiotic_for_MR_met_num)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um)))#,colour=stage))
+
