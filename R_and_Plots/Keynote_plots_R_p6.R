@@ -7,8 +7,7 @@ library(ggplot2)
 #prepare data
 #################################################################################################
 
-
-setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/140924_keynote')
+setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/R_and_Plots/')
 getwd()
 ################################################################################################
 #DATA SETS
@@ -290,17 +289,38 @@ text(model.2,cex=0.7)
 class(summary(model.2)$used)
 attr(model.2$terms,'term.labels')
 
+#just checking: (pure ridiculousness)
+#model.2a<-tree(meiotic_for_MR_met_num[,c(1:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:15)])
+#plot(model.2a)
+#text(model.2a,cex=0.7)
+
+
 class(as.character(summary(model.2)$used))
 
 #str(summary(model.2))
 #gettig index of the relevant terms
 most_rel_terms<-function(list_of_terms){
-  for(i in as.character(list_of_terms)){
+  for(i in 1:length(as.character(list_of_terms))){
     print(list_of_terms[i])
   }
   #return()
 }
+class(as.character(summary(model.2)$used))
 most_rel_terms(as.character(summary(model.2)$used))
  
-ggplot(data=meiotic_for_MR_met_num)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um)))#,colour=stage))
+#ggplot(data=meiotic_for_MR_met_num)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um)))#,colour=stage))
+model.3<-lm()
+
+head(meiotic_for_MR_met_num[,c(1:8,10:15)],1L)
+head(meiotic_for_MR_met_num[,c(8,9)],1L)
+
+#[1] "cell_diameter_um"
+#[1] "genome"
+#[1] "spindle_aspect_ratio_poles_um"
+#[1] "spindle_aspect_ratio_asters_um"
+#[1] "metaphase_plate_lengt_h_um"
+
+#gte the index numbers for them
+#check curvature for the above 5 terms (plots in the folder)
+
 
