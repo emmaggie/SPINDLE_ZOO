@@ -284,8 +284,26 @@ library(tree)
 names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #
 
 model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
+
+#pdf(file='tree_model_meiotic_with_aspect.pdf')
 plot(model.2)
 text(model.2,cex=0.7)
+#dev.off()
+
+####ALTERNATIVE WITHOUT SPINDLE ASPECT RATIO
+names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #remove 7 and 8
+names(meiotic_for_MR_met_num[,c(1:6,10:15)]) #remove 7 and 8
+
+model.2a<-tree(meiotic_for_MR_met_num[,c(1:6,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:6,10:15)])
+#meiotic_for_MR_met_num$spindle_length_poles_um
+#pdf(file='tree_model_meiotic_with_aspect.pdf')
+plot(model.2a)
+text(model.2a,cex=0.7)
+#dev.off()
+
+
+str(model.2)
+
 class(summary(model.2)$used)
 attr(model.2$terms,'term.labels')
 
@@ -309,13 +327,12 @@ class(as.character(summary(model.2)$used))
 most_rel_terms(as.character(summary(model.2)$used))
  
 #ggplot(data=meiotic_for_MR_met_num)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um)))#,colour=stage))
-model.3<-lm()
 
 head(meiotic_for_MR_met_num[,c(1:8,10:15)],1L)
 head(meiotic_for_MR_met_num[,c(8,9)],1L)
 
-#[1] "cell_diameter_um"
-#[1] "genome"
+#[1] "cell_diameter_um" - curved
+#[1] "genome" - curved
 #[1] "spindle_aspect_ratio_poles_um"
 #[1] "spindle_aspect_ratio_asters_um"
 #[1] "metaphase_plate_lengt_h_um"
@@ -323,4 +340,65 @@ head(meiotic_for_MR_met_num[,c(8,9)],1L)
 #gte the index numbers for them
 #check curvature for the above 5 terms (plots in the folder)
 
+#DEFINE THE TERMS
+cd2<-(meiotic_for_MR_met_num$cell_diameter_um)^2
+g2<-(meiotic_for_MR_met_num$genome)^2
+cd_g<-meiotic_for_MR_met_num$cell_diameter_um*meiotic_for_MR_met_num$genome
+cd_sara<-meiotic_for_MR_met_num$cell_diameter_um*meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um
+g_sarp<-meiotic_for_MR_met_num$genome*meiotic_for_MR_met_num$spindle_aspect_ratio_poles_um
+sara_mplh<-meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um*meiotic_for_MR_met_num$metaphase_plate_lengt_h_um
+cd_g_sarp<-meiotic_for_MR_met_num$cell_diameter_um*meiotic_for_MR_met_num$genome*meiotic_for_MR_met_num$spindle_aspect_ratio_poles_um
+cd_sara_mplh<-meiotic_for_MR_met_num$cell_diameter_um*meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um*meiotic_for_MR_met_num$metaphase_plate_lengt_h_um
 
+model.3<-lm(meiotic_for_MR_met_num$spindle_length_poles_um~meiotic_for_MR_met_num$cell_diameter_um+meiotic_for_MR_met_num$genome+meiotic_for_MR_met_num$spindle_aspect_ratio_poles_um+meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um+meiotic_for_MR_met_num$metaphase_plate_lengt_h_um+cd2+g2+cd_g+cd_sara+g_sarp+sara_mplh+cd_g_sarp+cd_sara_mplh)
+
+summary(model.3)
+
+model.3a<-update(model.3,~.-cd_sara_mplh)
+summary(model.3a)
+
+model.3b<-update(model.3a,~.-cd_g)
+summary(model.3b)
+
+model.3b<-update(model.3b,~.-meiotic_for_MR_met_num$spindle_aspect_ratio_poles_um)
+summary(model.3b)
+
+model.3b<-update(model.3b,~.-meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um)
+summary(model.3b)
+
+
+
+#Warning messages:
+#1: In model.matrix.default(mt, mf, contrasts) :
+# the response appeared on the right-hand side and was dropped
+#2: In model.matrix.default(mt, mf, contrasts) :
+# problem with term 3 in model.matrix: no columns are assigned
+model.3c<-update(model.3b,~.-cd2)
+summary(model.3c)
+
+#plot(model.3c)
+
+
+
+
+
+
+
+
+###SKIP ME!!!!!
+#names = LETTERS[1:26] ## Gives a sequence of the letters of the alphabet
+#beta1 = rnorm(26, 5, 2) ## A vector of slopes (one for each letter)
+#beta0 = 10 ## A common intercept
+
+#for(i in 1:26){
+# x = rnorm(500, 105, 10)
+# y = beta0 + beta1[i]*x + 15*rnorm(500)
+  
+# mypath <- file.path(paste("myplot_", names[i], ".jpg", sep = ""))
+  
+# png(file=mypath)
+# mytitle = paste("my title is", names[i])
+# plot(x,y, main = mytitle)
+# dev.off()
+#}
+### DONE HERE!!!
