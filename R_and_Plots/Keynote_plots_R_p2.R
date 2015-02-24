@@ -1,8 +1,7 @@
 library(ggplot2)
 
 #setwd('/Volumes/Magdalena_NEW1/MARINA_PAPER/SEPTEMBER_2014')
-
-setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/140924_keynote')
+setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/R_and_Plots/')
 getwd()
 ################################################################################################
 #DATA SETS

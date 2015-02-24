@@ -1,3 +1,5 @@
+#This is pureley exploratory analysis
+#most plots are not in the body of the paper
 #RESOURCES:
 #https://github.com/ckrogs/r_graphics_dlab/blob/master/r_graphics.md
 library(ggplot2)
@@ -6,7 +8,8 @@ library(ggplot2)
 #display.brewer.all() #not enough levels
 
 #INITIAL 
-setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/140924_keynote')
+setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo Data/R_and_Plots/')
+
 dir()
 
 #################################################################################################################################
@@ -73,9 +76,6 @@ mapping_vector_labs
 
 
 
-
-
-
 merged_original<-merge(original,mapping_data_frame, by='organism_CAT')
 merged_original[5:10,]
 #This is but still not what I want
@@ -105,6 +105,11 @@ new_cols<-c("#F8766D","#00B0F6","#FF6A98","#35A2FF","#C09B00","#E76BF3","#EA8331
 mapping_vector2<-setNames(as.character(new_cols),mapping_data_frame$organism_CAT)
 mapping_vector2
 
+###########################################################
+#testing new color assignment on the exploratory plots: 
+#see: file: mapping_colors.txt
+###########################################################
+
 asters_no_asters<-ggplot()
 asters_no_asters+geom_point(data=merged_original,aes(merged_original$spindle_length__asters_um,merged_original$spindle_length_poles_um,size=merged_original$cell_diameter_um,colour=merged_original$cols),alpha=0.3)#+scale_colour_manual(values=merged_original$cols)
 #,colour=factor(original$organism_CAT)
@@ -114,7 +119,7 @@ asters_no_asters+geom_point(data=merged_original,aes(merged_original$spindle_len
 #USE THIS ONE (SOLUTION 3)
 asters_no_asters<-ggplot()
 asters_no_asters+geom_point(data=merged_original,aes(merged_original$spindle_length__asters_um,merged_original$spindle_length_poles_um,size=merged_original$cell_diameter_um,colour=factor(merged_original$organism_CAT)),alpha=0.3)+scale_colour_manual(values=mapping_vector2,labels=mapping_vector_labs)+xlim(c(0,200))+ylim(c(0,200))+labs(title='all_data')
-ggsave(filename = 'spindle_size_poles_vs_aster_sall_data_v2.pdf',width=11, height=8)
+#ggsave(filename = 'spindle_size_poles_vs_aster_sall_data_v2.pdf',width=11, height=8)
 
 
 asters_no_asters_2<-ggplot()
@@ -122,14 +127,14 @@ asters_no_asters_2+geom_point(data=original,aes(original$spindle_length__asters_
 #original$organism
 asters_no_asters_2<-ggplot()
 asters_no_asters_2+geom_point(data=merged_original,aes(merged_original$spindle_length__asters_um,merged_original$spindle_length_poles_um,size=merged_original$cell_diameter_um,colour=merged_original$cols),alpha=0.3)+xlim(c(0,150))+ylim(c(0,150))#+scale_colour_manual(values
-ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150.pdf')
+#ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150.pdf')
 
 asters_no_asters_3<-ggplot()
 asters_no_asters_3+geom_point(data=original,aes(original$spindle_length__asters_um,original$spindle_length_poles_um,size=original$cell_diameter_um,colour=factor(original$organism_CAT)),alpha=0.5)+xlim(c(0,150))+ylim(c(0,100))
 #original$organism
 asters_no_asters_3<-ggplot()
 asters_no_asters_3+geom_point(data=merged_original,aes(merged_original$spindle_length__asters_um,merged_original$spindle_length_poles_um,size=merged_original$cell_diameter_um,colour=merged_original$cols),alpha=0.3)+xlim(c(0,150))+ylim(c(0,100))+labs(title='all_spindles')
-ggsave(filename = 'spindle_size_poles_to_100_vs_asters_to_150.pdf')
+#ggsave(filename = 'spindle_size_poles_to_100_vs_asters_to_150.pdf')
 #################################################################################################################################
 #MITOTIC ONLY METAPHASE ONLY
 #################################################################################################################################
@@ -143,7 +148,7 @@ mitotic_metaphase<-read.csv('mitotic_metaphase.csv')
 #USE THIS ONE (SOLUTION3):
 asters_no_asters_mm<-ggplot()
 asters_no_asters_mm+geom_point(data=mitotic_metaphase,aes(mitotic_metaphase$spindle_length__asters_um,mitotic_metaphase$spindle_length_poles_um,size=mitotic_metaphase$cell_diameter_um,colour=factor(mitotic_metaphase$organism_CAT)),alpha=0.3)+scale_colour_manual(values=mapping_vector2,labels=mapping_vector_labs)+xlim(c(0,200))+ylim(c(0,200))+labs(title='mitotic_metaphase')
-ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_metaphase_v2.pdf',width=11, height=8)
+#ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_metaphase_v2.pdf',width=11, height=8)
 
 
 
@@ -166,7 +171,7 @@ asters_no_asters_mm2<-ggplot()
 asters_no_asters_mm2+geom_point(data=merged_mitotic_metaphase,aes(x=merged_mitotic_metaphase$spindle_length__asters_um,y=merged_mitotic_metaphase$spindle_length_poles_um,size=merged_mitotic_metaphase$cell_diameter_um, colour=as.character(merged_mitotic_metaphase$cols)),alpha=0.5)+xlim(c(0,150))+ylim(c(0,100))+labs(title='mitotic_metaphase_new')+scale_colour_manual(values=merged_mitotic_metaphase$cols) #still doesn't work
 
 
-ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_metaphase_v2.pdf')
+#ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_metaphase_v2.pdf')
 
 #SOLUTION 3:
 asters_no_asters_mm<-ggplot()
@@ -178,12 +183,12 @@ asters_no_asters_mm+geom_point(data=merged_mitotic_metaphase,aes(merged_mitotic_
 mitotic_anaphase<-read.csv('mitotic_anaphase.csv')
 asters_no_asters_ma<-ggplot()
 asters_no_asters_ma+geom_point(data=mitotic_anaphase,aes(mitotic_anaphase$spindle_length__asters_um,mitotic_anaphase$spindle_length_poles_um,size=mitotic_anaphase$cell_diameter_um,colour=factor(mitotic_anaphase$organism_CAT)),alpha=0.5)+xlim(c(0,150))+ylim(c(0,100))+labs(title='mitotic_anaphase')
-ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_anaphase.pdf')
+#ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_anaphase.pdf')
 
 #USE THIS ONE (SOLUTION3):
 asters_no_asters_ma<-ggplot()
 asters_no_asters_ma+geom_point(data=mitotic_anaphase,aes(mitotic_anaphase$spindle_length__asters_um,mitotic_anaphase$spindle_length_poles_um,size=mitotic_anaphase$cell_diameter_um,colour=factor(mitotic_anaphase$organism_CAT)),alpha=0.3)+scale_colour_manual(values=mapping_vector2,labels=mapping_vector_labs)+xlim(c(0,200))+ylim(c(0,200))+labs(title='mitotic_anaphase')
-ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_anaphase_v2.pdf',width=11, height=8)
+#ggsave(filename = 'spindle_size_poles_to_150_vs_asters_to_150_mitotic_anaphase_v2.pdf',width=11, height=8)
 
 
 

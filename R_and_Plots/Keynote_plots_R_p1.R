@@ -108,7 +108,7 @@ ggsave(filename = 'Y_spindle_length_PP_X_cell_diameter_stretched.pdf',width=11, 
 plot_1<-ggplot()
 plot_1<-plot_1+geom_point(data=mitotic_df,aes(x=mitotic_df$cell_diameter_um,y=mitotic_df$spindle_length__asters_um,colour=factor(mitotic_df$organism_CAT)),alpha=0.5)
 plot_1+scale_colour_manual(values = mapping_vector2,labels=mapping_vector_labs)+coord_fixed()+ylim(c(0,300))+labs(title='spindle length as a func of cell diameter - by organism')
-ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_scaled.pdf',width=11, height=8)
+#ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_scaled.pdf',width=11, height=8)
 
 
 #alpha_scaling<-function(x){

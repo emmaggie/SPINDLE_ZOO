@@ -1,3 +1,4 @@
+##Figure 4 and S4 MITOTIC
 #Try piecewise regression for fig 1. 
 #http://rkbookreviews.wordpress.com/2011/08/27/doing-bayesian-data-analysis-summary/
 #Try multivariate regression on mitotic and mitotic spindles for fig 3.
@@ -67,9 +68,9 @@ mitotic_for_MR<-mitotic_for_MR[-c(23,24)]
 
 names(mitotic_for_MR)
 #NOW: all the dupes are removed
-################################################################################################
+#############################################################################################
 #get metaphase spindles only: use mitotic_for_MR
-################################################################################################
+#############################################################################################
 ggplot(data=mitotic)+geom_point(aes(y=spindle_length_poles_um,x=log2(cell_diameter_um),colour=stage))
 ggplot(data=mitotic)+geom_point(aes(y=spindle_length_poles_um,x=cell_diameter_um,colour=stage))
 
@@ -161,8 +162,8 @@ for (col in names(mitotic_for_MR_met_num)){
 #Crawley, Michael J. (2012-11-07). The R Book (Kindle Location 17300). Wiley. Kindle Edition. 
 #normality is a problem
 #mitotic_for_MR_met_num
-################################################################################################
-################################################################################################
+#############################################################################################
+#############################################################################################
 head(mitotic_for_MR_met_num)
 names(mitotic_for_MR_met_num)
 dim(mitotic_for_MR_met_num)
@@ -298,17 +299,62 @@ model.2<-tree(mitotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . 
 #pdf(file='tree_model_mitotic_with_aspect.pdf')
 plot(model.2)
 text(model.2,cex=0.7)
+model.2
+str(model.2)
+names(model.2$frame)
+model.2$frame[model.2$frame$var=="cell_diameter_um",]$dev[2:4]
+sum(model.2$frame[model.2$frame$var=="cell_diameter_um",]$dev[2:4])
+str(model.2$frame[model.2$frame$var=="cell_diameter_um",])
+#how to read trees:
+#http://plantecology.syr.edu/fridley/bio793/cart.html
+y=mitotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um
+SSY=sum(sapply(y,function(x)(x-mean(y,na.rm=TRUE))^2),na.rm=TRUE)
+SSY.model.2<-sum(sapply(model.2$y,function(x)(x-mean(model.2$y,na.rm=TRUE))^2),na.rm=TRUE)
 summary(model.2)
+
+#calculate fraction of deviance explained:
+residual_dev=sum(model.2$frame[model.2$frame$var=='<leaf>',]$dev)
+frac_dev_expl=1-residual_dev/model.2$frame$dev[1]
+
 #dev.off()
 class(summary(model.2)$used)
 
-names(mitotic_for_MR_met_num[,c(1:8,10:15)]) #
+names(mitotic_for_MR_met_num[,c(1:8,10:15)]) 
+
+#STEP_1 - get node index for variable of choice and initial deviance associated with it
+get_tree_idx_of_var_x<-function(tree_model,var_name){
+  #result<-vector('list',2)
+  result<-list(idx=row.names(tree_model$frame[tree_model$frame$var==var_name,]),entry_dev=tree_model$frame[tree_model$frame$var==var_name,]$dev)
+  return(result)
+}
+#test:
+get_tree_idx_of_var_x(model.2,'cell_diameter_um')
+
+#STEP_2  - get output node indices and deviances associated with them
+get_output_deviance<-function(tree_model,var_name){
+  entry_indices=get_tree_idx_of_var_x(tree_model,var_name)[[1]] 
+  exit_indices<-vector('list',length(entry_indices))
+  for(i in 1:length(entry_indices)){
+    exit_indices[[i]]<-c(as.character(as.numeric(entry_indices[i])+1),as.character(as.numeric(entry_indices[i])+2))
+  }
+  dev_values<-vector('list',length(exit_indices))
+  for(i in 1:length(exit_indices)){
+    dev_values[i]<-sum(tree_model$frame[row.names(tree_model$frame) %in% exit_indices[[i]],]$dev)
+    #print(exit_indices[[i]]) 
+  }
+  return(sum(as.numeric(dev_values)))
+}
+#test:
+get_output_deviance(model.2,'genome')
 
 
+?vector
+class(res[[1]])
+sum(model.2$frame[row.names(model.2$frame) %in% res[[1]],]$dev)
 
+model.2$frame[row.names(model.2$frame) %in% row_names,]
 
 attr(model.2$terms,'term.labels')
-
 #just checking: (pure ridiculousness)
 #model.2a<-tree(mitotic_for_MR_met_num[,c(1:15)]$spindle_length_poles_um ~ . ,data=mitotic_for_MR_met_num[,c(1:15)])
 #plot(model.2a)
