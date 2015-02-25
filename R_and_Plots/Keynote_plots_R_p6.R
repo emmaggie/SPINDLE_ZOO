@@ -220,12 +220,12 @@ qqline(sqrt(meiotic_for_MR_met_num$spindle_length_poles_um))
 
 #step 1: look ar correleations
 getwd()
-pdf('p6_1_MR_pairs_of_variables_1.pdf')
-pairs(meiotic_for_MR_met_num,pch=16)
-dev.off()
-pdf('p6_1_MR_pairs_of_variables_2.pdf')
-pairs(meiotic_for_MR_met_num,panel=panel.smooth,pch=16)
-dev.off()
+#pdf('p6_1_MR_pairs_of_variables_1.pdf')
+#pairs(meiotic_for_MR_met_num,pch=16)
+#dev.off()
+#pdf('p6_1_MR_pairs_of_variables_2.pdf')
+#pairs(meiotic_for_MR_met_num,panel=panel.smooth,pch=16)
+#dev.off()
 
 #step 2: checking curvature: try generalized additive model NOT 9!!!! to decide on curvature
 #http://ecology.msu.montana.edu/labdsv/R/labs/lab5/lab5.html
@@ -280,10 +280,14 @@ gam_plotter<-function(list_of_models){
 }
 #gam_plotter(list_of_gams) #run to repeat plotting
 
+############################################
 #step 3: picking interaction terms - trees
+############################################
+#two models for meiotic spindles (with and without aspect ratio)
 library(tree)
 names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #
 
+#1. WITH ASPECT RATIO
 model.2<-tree(meiotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:8,10:15)])
 
 #pdf(file='tree_model_meiotic_with_aspect.pdf')
@@ -291,9 +295,10 @@ plot(model.2)
 text(model.2,cex=0.7)
 #dev.off()
 
-####ALTERNATIVE WITHOUT SPINDLE ASPECT RATIO
+
+#2. ALTERNATIVE: WITHOUT SPINDLE ASPECT RATIO
 names(meiotic_for_MR_met_num[,c(1:8,10:15)]) #remove 7 and 8
-names(meiotic_for_MR_met_num[,c(1:6,10:15)]) #remove 7 and 8
+names(meiotic_for_MR_met_num[,c(1:6,10:15)]) #removed 7 and 8
 
 model.2a<-tree(meiotic_for_MR_met_num[,c(1:6,10:15)]$spindle_length_poles_um ~ . ,data=meiotic_for_MR_met_num[,c(1:6,10:15)])
 #meiotic_for_MR_met_num$spindle_length_poles_um
@@ -302,9 +307,53 @@ plot(model.2a)
 text(model.2a,cex=0.7)
 #dev.off()
 
+############################################
+#calculate fraction of deviance explained:
+############################################
+residual_dev=sum(model.2$frame[model.2$frame$var=='<leaf>',]$dev)
+frac_dev_expl=1-residual_dev/model.2$frame$dev[1]
+
+residual_dev.a=sum(model.2$frame[model.2a$frame$var=='<leaf>',]$dev)
+frac_dev_expl.a=1-residual_dev.a/model.2a$frame$dev[1]
+
+
+############################################
+#getting the length of branches
+#calculate fraction of deviance explained by a particular variable:
+############################################
+#STEP_1 - get node index for variable of choice and initial deviance associated with it
+#works perfectly
+get_tree_idx_of_var_x<-function(tree_model,var_name){
+  result<-list(idx=row.names(tree_model$frame[tree_model$frame$var==var_name,]),entry_dev=tree_model$frame[tree_model$frame$var==var_name,]$dev)
+  return(result)
+}
+#test:
+#get_tree_idx_of_var_x(model.2,'cell_diameter_um')
+
+#STEP_2  - get output node indices and deviances associated with them
+get_output_deviance<-function(tree_model,var_name){
+  entry_indices=get_tree_idx_of_var_x(tree_model,var_name)$idx
+  exit_indices<-vector('list',length(entry_indices))
+  for(i in 1:length(entry_indices)){
+    exit_indices[[i]]<-c(as.character(as.numeric(entry_indices[i])*2),as.character(as.numeric(entry_indices[i])*2+1))
+  }
+  output_dev<-vector()
+  for(i in 1:length(exit_indices)){
+    output_dev[i]<-(sum(tree_model$frame[row.names(tree_model$frame) %in% exit_indices[[i]],]$dev))
+  }
+  return(sum(output_dev))
+}
+#test:
+get_tree_idx_of_var_x(model.2,'cell_diameter_um')
+get_output_deviance(model.2,'cell_diameter_um')
+
+frac_of_dev_cell_diam=get_output_deviance(model.2,'cell_diameter_um')/get_tree_idx_of_var_x(model.2,'cell_diameter_um')$entry_dev[1]
+frac_of_dev_cell_diam.a=get_output_deviance(model.2a,'cell_diameter_um')/get_tree_idx_of_var_x(model.2a,'cell_diameter_um')$entry_dev[1]
+
+
+
 
 str(model.2)
-
 class(summary(model.2)$used)
 attr(model.2$terms,'term.labels')
 

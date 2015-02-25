@@ -287,7 +287,11 @@ gam_plotter<-function(list_of_models){
 }
 #gam_plotter(list_of_gams) #run to repeat plotting
 
+#############################################################################################
 #step 3: picking interaction terms - trees
+#############################################################################################
+
+
 library(tree)
 #http://www.r-bloggers.com/a-brief-tour-of-the-trees-and-forests/
 #http://plantecology.syr.edu/fridley/bio793/cart.html
@@ -311,8 +315,11 @@ y=mitotic_for_MR_met_num[,c(1:8,10:15)]$spindle_length_poles_um
 SSY=sum(sapply(y,function(x)(x-mean(y,na.rm=TRUE))^2),na.rm=TRUE)
 SSY.model.2<-sum(sapply(model.2$y,function(x)(x-mean(model.2$y,na.rm=TRUE))^2),na.rm=TRUE)
 summary(model.2)
-
+############################################
 #calculate fraction of deviance explained:
+############################################
+
+
 residual_dev=sum(model.2$frame[model.2$frame$var=='<leaf>',]$dev)
 frac_dev_expl=1-residual_dev/model.2$frame$dev[1]
 
@@ -320,39 +327,36 @@ frac_dev_expl=1-residual_dev/model.2$frame$dev[1]
 class(summary(model.2)$used)
 
 names(mitotic_for_MR_met_num[,c(1:8,10:15)]) 
-
+############################################
+#getting the length of branches
+#calculate fraction of deviance explained by a particular variable:
+############################################
 #STEP_1 - get node index for variable of choice and initial deviance associated with it
+#works perfectly
 get_tree_idx_of_var_x<-function(tree_model,var_name){
-  #result<-vector('list',2)
   result<-list(idx=row.names(tree_model$frame[tree_model$frame$var==var_name,]),entry_dev=tree_model$frame[tree_model$frame$var==var_name,]$dev)
   return(result)
 }
 #test:
-get_tree_idx_of_var_x(model.2,'cell_diameter_um')
+#get_tree_idx_of_var_x(model.2,'cell_diameter_um')
 
 #STEP_2  - get output node indices and deviances associated with them
 get_output_deviance<-function(tree_model,var_name){
-  entry_indices=get_tree_idx_of_var_x(tree_model,var_name)[[1]] 
+  entry_indices=get_tree_idx_of_var_x(tree_model,var_name)$idx
   exit_indices<-vector('list',length(entry_indices))
   for(i in 1:length(entry_indices)){
-    exit_indices[[i]]<-c(as.character(as.numeric(entry_indices[i])+1),as.character(as.numeric(entry_indices[i])+2))
+      exit_indices[[i]]<-c(as.character(as.numeric(entry_indices[i])*2),as.character(as.numeric(entry_indices[i])*2+1))
   }
-  dev_values<-vector('list',length(exit_indices))
+  output_dev<-vector()
   for(i in 1:length(exit_indices)){
-    dev_values[i]<-sum(tree_model$frame[row.names(tree_model$frame) %in% exit_indices[[i]],]$dev)
-    #print(exit_indices[[i]]) 
+    output_dev[i]<-(sum(tree_model$frame[row.names(tree_model$frame) %in% exit_indices[[i]],]$dev))
   }
-  return(sum(as.numeric(dev_values)))
+  return(sum(output_dev))
 }
 #test:
-get_output_deviance(model.2,'genome')
-
-
-?vector
-class(res[[1]])
-sum(model.2$frame[row.names(model.2$frame) %in% res[[1]],]$dev)
-
-model.2$frame[row.names(model.2$frame) %in% row_names,]
+get_tree_idx_of_var_x(model.2,'cell_diameter_um')$entry_dev[1]
+get_output_deviance(model.2,'cell_diameter_um')
+frac_of_dev_cell_diam=get_output_deviance(model.2,'cell_diameter_um')/get_tree_idx_of_var_x(model.2,'cell_diameter_um')$entry_dev[1]
 
 attr(model.2$terms,'term.labels')
 #just checking: (pure ridiculousness)
@@ -386,8 +390,12 @@ head(mitotic_for_MR_met_num[,c(8,9)],1L)
 
 #gte the index numbers for them
 #check curvature for the above 5 terms (plots in the folder)
-
+#############################################################################################
+#LINEAR MODEL
 #DEFINE THE TERMS
+#############################################################################################
+
+
 cd2<-(mitotic_for_MR_met_num$cell_diameter_um)^2
 g2<-(mitotic_for_MR_met_num$genome)^2
 iad2<-(mitotic_for_MR_met_num$inner_aster_diameter_AVG)^2
