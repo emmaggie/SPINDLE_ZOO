@@ -42,7 +42,10 @@ for (col in names(mitotic)){
 }
 
 ################################################################################################
-#remove duplicates
+#remove/average out duplicates 
+#astere.to.pole_distance
+#inner_aster_diameter
+#polar_body_diameter
 ################################################################################################
 
 mitotic_for_MR<-mitotic
@@ -394,7 +397,8 @@ head(mitotic_for_MR_met_num[,c(8,9)],1L)
 #LINEAR MODEL
 #DEFINE THE TERMS
 #############################################################################################
-
+names(mitotic_for_MR_met_num)
+continuous.vars<-names(mitotic_for_MR_met_num)
 
 cd2<-(mitotic_for_MR_met_num$cell_diameter_um)^2
 g2<-(mitotic_for_MR_met_num$genome)^2
