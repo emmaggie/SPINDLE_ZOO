@@ -26,6 +26,8 @@ mitotic<-read.csv('../SEPTEMBER_2014/meiotic_false.csv',stringsAsFactors=FALSE)
 head(meiotic)
 
 original<-read.csv('../SEPTEMBER_2014/original.csv',stringsAsFactors=FALSE)
+dim(original)
+head(original)
 ################################################################################################
 ################################################################################################
 #GET NUMERIC COLUMNS ONLY (MULTIPLE REGRESSION)
