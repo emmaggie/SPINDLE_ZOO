@@ -54,24 +54,35 @@ original.SQL<-original.SQL[-c(14,15)]
 names(original.SQL)
 
 dim(original.SQL) #2001 x 40
+list.files(path='../SEPTEMBER_2014/',pattern = ".csv")
+head(original.SQL)
+#write.csv(original.SQL,file='../SEPTEMBER_2014/original_SQL_without_dupes_from_R.csv')
 ###############################################################################################
-#no duplicates
-#metadata columns 
+#ABOVE: data object has: no duplicates
+###############################################################################################
+#BELOW: specyfying variable types
+###############################################################################################
+#1. metadata columns 
 ###############################################################################################
 metadata.cols<-c('date','image','objective','microscope','fixation','day')
 #in: fixation_CAT, microscope_CAT
 names(original.SQL) %in% metadata.cols
-original.SQL[1:2,names(original.SQL) %in% metadata.cols]
+head(original.SQL[1:2,names(original.SQL) %in% metadata.cols], 1L)
+head(original.SQL[,!names(original.SQL) %in% metadata.cols], 1L)
 
-################################################################################################
+#original.SQL.no_meta<-original.SQL[,!names(original.SQL) %in% metadata.cols]
+#write.csv(original.SQL.no_meta,file='../SEPTEMBER_2014/original_SQL_WO_dupes_WO_meta_from_R.csv')
+
+###############################################################################################
 #continous columns 
-################################################################################################
+###############################################################################################
 #continuous.vars #from _p7.R
 continuous.vars<-c("cell_diameter_um","distance_between_chromosomes_um","genome","metaphase_plate_aspect_ratio_um","metaphase_plate_lengt_h_um","metaphase_plate_width_um","spindle_aspect_ratio_asters_um","spindle_aspect_ratio_poles_um","spindle_length__asters_um","spindle_length_poles_um","spindle_width_um","astere.to.pole_distance_AVG","inner_aster_diameter_AVG","polar_body_diameter_AVG","outer_aster_diameter_AVG")
 length(continuous.vars)
 for(i in 1:length(continuous.vars)){
   print(class(unlist(original.SQL[continuous.vars[i]])))
 } #numeric
+
 
 ###############################################################################################
 #categorical columns 
@@ -88,6 +99,8 @@ length(cat.cols)
 names(cat.cols)<-rep('',length(cat.cols))
 cat.cols<-c(cat.cols,'meiotic','centrosome',)
 names(original.SQL)
+
+
 ###############################################################################################
 #count columns 
 ###############################################################################################
@@ -111,6 +124,8 @@ length(unique(original.SQL.met$organism)) #20
 ###how many rows per organism?
 class(split(original.SQL.met,original.SQL.met$organism))
 lapply(split(original.SQL.met,original.SQL.met$organism),dim)
+
+#write.csv(original.SQL.met,file='../SEPTEMBER_2014/original_SQL_WO_dupes_WO_meta_from_R.csv')
 
 ###############################################################################################
 #PCA on continous variables
@@ -183,7 +198,7 @@ library(sem)
 ?sem
 
 ###############################################################################################
-#Cluster analysis on continous variables
+#Cluster analysis on continous variables - baggedTrees
 ###############################################################################################
 #http://topepo.github.io/caret/index.html
 #install.packages('caret')
@@ -194,16 +209,16 @@ dim(DS)
 
 #https://github.com/topepo/caret/blob/master/RegressionTests/Code/knnImpute.R
 ?preProcess
-preprocParams<-preProcess(DS,method="knnImpute") #estimates std params
+#preprocParams<-preProcess(DS,method="knnImpute") #estimates std params
 #won't work if the number of NA's is high
 sum(is.na(DS))
 res<-predict(preprocParams,DS)
-preprocParams<-preProcess(DS,method="bagImpute") #estimates std params
+preprocParams_baggedTree<-preProcess(DS,method="bagImpute") #estimates std params
 #install.packages('ipred')
-res<-predict(preprocParams,DS)
-sum(is.na(res))
-dim(res)
-model.kmeans<-kmeans(res,centers=2)
+res_baggedTree<-predict(preprocParams_baggedTree,DS)
+sum(is.na(res_baggedTree))
+dim(res_baggedTree)
+model.kmeans.baggedTree<-kmeans(res_baggedTree,centers=2)
 
 #impute with knn, impute with bags of trees
 str(preproc)
