@@ -71,7 +71,7 @@ head(original.SQL[1:2,names(original.SQL) %in% metadata.cols], 1L)
 head(original.SQL[,!names(original.SQL) %in% metadata.cols], 1L)
 
 #original.SQL.no_meta<-original.SQL[,!names(original.SQL) %in% metadata.cols]
-#write.csv(original.SQL.no_meta,file='../SEPTEMBER_2014/original_SQL_WO_dupes_WO_meta_from_R.csv')
+#write.csv(original.SQL.no_meta,file='../SEPTEMBER_2014/original_SQL_WO_dupes_WO_metadata_from_R.csv')
 
 ###############################################################################################
 #continous columns 
@@ -125,8 +125,8 @@ length(unique(original.SQL.met$organism)) #20
 class(split(original.SQL.met,original.SQL.met$organism))
 lapply(split(original.SQL.met,original.SQL.met$organism),dim)
 
-#write.csv(original.SQL.met,file='../SEPTEMBER_2014/original_SQL_WO_dupes_WO_meta_from_R.csv')
-
+#write.csv(original.SQL.met,file='../SEPTEMBER_2014/original_SQL_metaphase_only_from_R.csv')
+head(original.SQL.met)
 ###############################################################################################
 #PCA on continous variables
 ###############################################################################################
