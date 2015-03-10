@@ -1,7 +1,7 @@
 #This is the unsupervised part of the multivariate analysis
 #following the chater 25 in the R book 
 
-#collinearity is not dealt with yet!!!
+#collinearity!!!
 #install.packages('apcluster')
 ###############################################################################################
 #PREPARE DATA
@@ -88,6 +88,7 @@ for(i in 1:length(continuous.vars)){
 ###############################################################################################
 #categorical columns 
 ###############################################################################################
+#original<-read.csv('../SEPTEMBER_2014/original.csv',stringsAsFactors=FALSE)
 grep('_CAT',names(original.SQL),value=TRUE)
 cats_to_parse<-grep('_CAT',names(original.SQL),value=TRUE)
 
@@ -98,9 +99,9 @@ sapply(cats_to_parse,function(x){strsplit(x,'_CAT')[[1]]})
 cat.cols<-c(grep('_CAT',names(original.SQL),value=TRUE),sapply(cats_to_parse,function(x){strsplit(x,'_CAT')[[1]]}))
 length(cat.cols)
 names(cat.cols)<-rep('',length(cat.cols))
-cat.cols<-c(cat.cols,'meiotic','centrosome',)
+cat.cols<-c(cat.cols,'meiotic','centrosome')
 names(original.SQL)
-
+cat.cols
 
 ###############################################################################################
 #count columns 
@@ -206,6 +207,7 @@ library(sem)
 
 ###############################################################################################
 #Cluster analysis on continous variables - baggedTrees NA management
+#Cluster analysis on continous variables - baggedTrees
 ###############################################################################################
 #http://topepo.github.io/caret/index.html
 #install.packages('caret')
@@ -213,6 +215,7 @@ library(caret)
 sum(is.na(original.SQL.met.cont)) #2230
 DS<-original.SQL.met.cont
 dim(DS) #1462x15
+dim(DS)
 
 #https://github.com/topepo/caret/blob/master/RegressionTests/Code/knnImpute.R
 ?preProcess
@@ -239,6 +242,14 @@ help(apcluster)
 
 
 ###########CHANGE VAR NAMES BELOW!!!!!
+=======
+res<-predict(preprocParams,DS)
+preprocParams_baggedTree<-preProcess(DS,method="bagImpute") #estimates std params
+#install.packages('ipred')
+res_baggedTree<-predict(preprocParams_baggedTree,DS)
+sum(is.na(res_baggedTree))
+dim(res_baggedTree)
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 model.kmeans.baggedTree<-kmeans(res_baggedTree,centers=2)
 
 #impute with knn, impute with bags of trees
