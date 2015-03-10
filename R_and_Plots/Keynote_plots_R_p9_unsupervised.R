@@ -1,15 +1,8 @@
 #This is the unsupervised part of the multivariate analysis
 #following the chater 25 in the R book 
 
-<<<<<<< HEAD
 #collinearity!!!
-=======
-#collinearity is not dealt with yet!!!
-<<<<<<< HEAD
->>>>>>> b8806288ff586cf06b5a0cfd4d9b392a91625ce6
 #install.packages('apcluster')
-=======
->>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 ###############################################################################################
 #PREPARE DATA
 ###############################################################################################
@@ -183,7 +176,7 @@ str(model.PCA)
 plot(model.PCA)
 biplot(model.PCA,cex=0.5)
 
-<<<<<<< HEAD
+
 str(model.PCA)
 
 pred<-predict(model.PCA)[,1:5]
@@ -216,37 +209,22 @@ library(sem)
 ?sem
 
 ###############################################################################################
-<<<<<<< HEAD
 #Cluster analysis on continous variables - baggedTrees NA management
-<<<<<<< HEAD
 #Cluster analysis on continous variables - baggedTrees
-=======
-=======
 #Cluster analysis on continous variables - baggedTrees
->>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
->>>>>>> b8806288ff586cf06b5a0cfd4d9b392a91625ce6
 ###############################################################################################
 #http://topepo.github.io/caret/index.html
 #install.packages('caret')
 library(caret)
 sum(is.na(original.SQL.met.cont)) #2230
 DS<-original.SQL.met.cont
-<<<<<<< HEAD
 dim(DS) #1462x15
-<<<<<<< HEAD
-dim(DS)
-=======
-=======
-dim(DS)
->>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
->>>>>>> b8806288ff586cf06b5a0cfd4d9b392a91625ce6
 
 #https://github.com/topepo/caret/blob/master/RegressionTests/Code/knnImpute.R
 ?preProcess
 #preprocParams<-preProcess(DS,method="knnImpute") #estimates std params
 #won't work if the number of NA's is high
 sum(is.na(DS))
-<<<<<<< HEAD
 preprocParams_baggedTree<-preProcess(DS,method="bagImpute") #estimates std params
 #install.packages('ipred')
 res_baggedTree<-predict(preprocParams_baggedTree,DS) #fills in NA
