@@ -2,7 +2,10 @@
 #following the chater 25 in the R book 
 
 #collinearity is not dealt with yet!!!
+<<<<<<< HEAD
 #install.packages('apcluster')
+=======
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 ###############################################################################################
 #PREPARE DATA
 ###############################################################################################
@@ -175,12 +178,15 @@ str(model.PCA)
 plot(model.PCA)
 biplot(model.PCA,cex=0.5)
 
+<<<<<<< HEAD
 str(model.PCA)
 
 pred<-predict(model.PCA)[,1:5]
 head(pred,2L)
 
 
+=======
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 col.1<-predict(model.PCA)[,1]
 as.integer(names(col.1))
 plot(original.SQL.met.cont.scaled[as.integer(names(col.1)),1],col.1)
@@ -205,20 +211,29 @@ library(sem)
 ?sem
 
 ###############################################################################################
+<<<<<<< HEAD
 #Cluster analysis on continous variables - baggedTrees NA management
+=======
+#Cluster analysis on continous variables - baggedTrees
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 ###############################################################################################
 #http://topepo.github.io/caret/index.html
 #install.packages('caret')
 library(caret)
 sum(is.na(original.SQL.met.cont)) #2230
 DS<-original.SQL.met.cont
+<<<<<<< HEAD
 dim(DS) #1462x15
+=======
+dim(DS)
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 
 #https://github.com/topepo/caret/blob/master/RegressionTests/Code/knnImpute.R
 ?preProcess
 #preprocParams<-preProcess(DS,method="knnImpute") #estimates std params
 #won't work if the number of NA's is high
 sum(is.na(DS))
+<<<<<<< HEAD
 preprocParams_baggedTree<-preProcess(DS,method="bagImpute") #estimates std params
 #install.packages('ipred')
 res_baggedTree<-predict(preprocParams_baggedTree,DS) #fills in NA
@@ -239,6 +254,14 @@ help(apcluster)
 
 
 ###########CHANGE VAR NAMES BELOW!!!!!
+=======
+res<-predict(preprocParams,DS)
+preprocParams_baggedTree<-preProcess(DS,method="bagImpute") #estimates std params
+#install.packages('ipred')
+res_baggedTree<-predict(preprocParams_baggedTree,DS)
+sum(is.na(res_baggedTree))
+dim(res_baggedTree)
+>>>>>>> 880f85b808d3c17816b8072f01b368cf124928dc
 model.kmeans.baggedTree<-kmeans(res_baggedTree,centers=2)
 
 #impute with knn, impute with bags of trees
