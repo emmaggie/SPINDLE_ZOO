@@ -1,2 +1,8 @@
 ### SPINDLE_ZOO
-Analysis for Spindle Zoo Paper
+Scripts and plots from: "The Spindle Zoo: A comparative analysis of spindle morphometrics across metazoans."   
+     
+In the spirit of open science complete R and Python code generated in the course of data analysis is deposited here.    
+   
+Authors are open to comments and suggestions to improve their work and gain additional insigts from the data collected.    
+
+
