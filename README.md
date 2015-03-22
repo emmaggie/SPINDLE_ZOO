@@ -5,4 +5,7 @@ In the spirit of open science complete R and Python code generated in the course
    
 Authors are open to comments and suggestions (and pull requests) to improve their work and gain additional insights from the data collected.    
 
+The project site lives [here](http://emmaggie.github.io/SPINDLE_ZOO).   
+
+
 
