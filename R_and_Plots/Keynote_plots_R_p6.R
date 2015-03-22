@@ -43,9 +43,9 @@ for (col in names(meiotic)){
   print(class(meiotic[,col]))
 }
 
-################################################################################################
+###############################################################################################
 #remove duplicates
-################################################################################################
+###############################################################################################
 
 meiotic_for_MR<-meiotic
 names(meiotic_for_MR)
@@ -415,6 +415,10 @@ summary(model.3b)
 model.3b<-update(model.3b,~.-meiotic_for_MR_met_num$spindle_aspect_ratio_poles_um)
 summary(model.3b)
 
+model.3b<-update(model.3b,~.-g2)
+summary(model.3b)
+
+
 model.3b<-update(model.3b,~.-meiotic_for_MR_met_num$spindle_aspect_ratio_asters_um)
 summary(model.3b)
 
@@ -430,6 +434,14 @@ summary(model.3c)
 
 #plot(model.3c)
 
+model.3d<-update(model.3c,~.-cd_g_sarp)
+summary(model.3d)
+
+model.3e<-update(model.3d,~.-mitotic_for_MR_met_num$genome )
+summary(model.3e)
+
+model.3f<-update(model.3e,~.-mitotic_for_MR_met_num$genome )
+summary(model.3f)
 
 
 
