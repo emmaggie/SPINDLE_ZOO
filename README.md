@@ -16,10 +16,10 @@ There are two additionally processed files: **original_SQL_WO_dupes_WO_metadata_
      
 Please refer to the file **SpindleZooColumnKey.txt** for the description of columns. 
 
-####R CODE
-Keynote_plots_R_p9_unsupervised.R - contains additional data pre-processing
-Keynote_plots_R_p8_piecewise_regression.R - contains additional data 
-
+### CODE
+Best way to visualize our code is through [nbviewer](http://nbviewer.ipython.org). All files ending with .ipynb can be scrolled through this way (you see the code and the output). E.g. have a look [here](http://nbviewer.ipython.org/github/emmaggie/SPINDLE_ZOO/blob/master/FINAL/Spindle_zoo_part_3c_additional_cleanup_piecewise_regression_IC.ipynb).    
+        
+### SITE
 The project site lives [here](http://emmaggie.github.io/SPINDLE_ZOO).   
 
 
