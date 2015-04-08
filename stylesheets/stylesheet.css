@@ -54,7 +54,7 @@ a {
       margin-left: 0; } }
 
 .page-header2 {
-  background-image: url('Zoo_image.jpg');
+  background-image: url('test_Zoo_image.jpg');
 }
 @media screen and (min-width: 64em) {
   .page-header2 {
@@ -62,11 +62,11 @@ a {
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .page-header2 {
-    padding: 30rem 40em; } }
+    padding: 6rem 2em; } }
 
 @media screen and (max-width: 42em) {
   .page-header2 {
-    padding: 5rem 2.5rem; } }
+    padding: 10rem 1rem; } }
 
 
 
