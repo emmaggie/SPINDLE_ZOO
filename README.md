@@ -17,7 +17,7 @@ There are two additionally processed files: **original_SQL_WO_dupes_WO_metadata_
 Please refer to the file **SpindleZooColumnKey.txt** for the description of columns. 
 
 ### CODE
-Best way to visualize our code is through [nbviewer](http://nbviewer.ipython.org). All files ending with .ipynb can be scrolled through this way (you see the code and the output). Simply, go to the [folder with all our code](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/FINAL), right click on the file ending with **.ipynb**, copy the link address, paste it [here](http://nbviewer.ipython.org) and hit **Go!**. E.g. have a look [here](http://nbviewer.ipython.org/github/emmaggie/SPINDLE_ZOO/blob/master/FINAL/Spindle_zoo_part_3c_additional_cleanup_piecewise_regression_IC.ipynb). This is what it shoudl look like.     
+Best way to visualize our code is through [nbviewer](http://nbviewer.ipython.org). All files ending with .ipynb can be scrolled through this way (you can see the code and the output). Simply, go to the [folder with all our code](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/FINAL), right click on the file ending with **.ipynb**, copy the link address, paste it [here](http://nbviewer.ipython.org) and hit **Go!**. E.g. have a look [here](http://nbviewer.ipython.org/github/emmaggie/SPINDLE_ZOO/blob/master/FINAL/Spindle_zoo_part_3c_additional_cleanup_piecewise_regression_IC.ipynb). This is what it shoudl look like.     
         
 ### SITE
 The project site lives [here](http://emmaggie.github.io/SPINDLE_ZOO).   
