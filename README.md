@@ -6,7 +6,7 @@ In the spirit of open science, complete R and Python code generated in the cours
 You are free to use data and code for scientific and educational purposes. We only ask you to cite the paper!    
    
 ####DATA FILES
-The raw data file is: **ZOODATA_140923.xlsx**.     
+The raw data file is: **ZOODATA_140923.xlsx**.       
       
 There is a number of modified files we saved along the way. They are all in this directory. **df2_original_for_SQL.csv** contains mostly 'clean' data. The same is true for **original.csv**. They differ with respect to the types of categorical columns. **original.csv** has 41 columns. All catergorical columns have a an equivalent ending with 'CAT', which encodes strings (words) with integers.   
 
