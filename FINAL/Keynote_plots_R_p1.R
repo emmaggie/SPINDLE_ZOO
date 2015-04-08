@@ -1,9 +1,9 @@
-library(ggplot2)
+library(ggplot2) 
 
-setwd('/Volumes/Magdalena_NEW1/MARINA_PAPER/SEPTEMBER_2014')
+setwd('/Volumes/Magdalena_NEW1/ZOO_DATA/Zoo\ Data/R_and_Plots')
 dir()
 list.files()
-original<-read.csv('original.csv')
+original<-read.csv('../SEPTEMBER_2014/original.csv')
 original[1,]
 ################################################################################################
 #MAPPING COLORS
@@ -77,13 +77,13 @@ mitotic_df$alpha<-ifelse(mitotic_df$cell_diameter_um<=300,0.3,1)
 plot_1<-ggplot()
 plot_1<-plot_1+geom_point(data=mitotic_df,aes(x=mitotic_df$cell_diameter_um,y=mitotic_df$spindle_length__asters_um,colour=factor(mitotic_df$organism_CAT)),alpha=0.5)
 plot_1+scale_colour_manual(values = mapping_vector2,labels=mapping_vector_labs)+labs(title='spindle length as a func of cell diameter - by organism')
-ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_stretched.pdf',width=11, height=8)
+#ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_stretched.pdf',width=11, height=8)
 
 
 plot_1<-ggplot()
 plot_1<-plot_1+geom_point(data=mitotic_df,aes(x=mitotic_df$cell_diameter_um,y=mitotic_df$spindle_length__asters_um,colour=factor(mitotic_df$organism_CAT)),alpha=0.5)
 plot_1+scale_colour_manual(values = mapping_vector2,labels=mapping_vector_labs)+coord_fixed()+ylim(c(0,300))+labs(title='spindle length as a func of cell diameter - by organism')
-ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_scaled.pdf',width=11, height=8)
+#ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_scaled.pdf',width=11, height=8)
 
 
 #alpha_scaling<-function(x){
@@ -94,7 +94,7 @@ ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_scaled.pdf',width=11, hei
 plot_1<-ggplot()
 plot_1<-plot_1+geom_point(data=mitotic_df,aes(x=mitotic_df$cell_diameter_um,y=mitotic_df$spindle_length__asters_um,colour=factor(mitotic_df$stage)),alpha=0.4)
 plot_1+labs(title='spindle length as a func of cell diameter - by cell cycle stage')
-ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_cell_cycle_stretched.pdf',width=11, height=8)
+#ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_cell_cycle_stretched.pdf',width=11, height=8)
 
 ################################################################################################
 #2 mitosis pole to pole:
@@ -102,7 +102,7 @@ ggsave(filename = 'Y_spindle_length_AA_X_cell_diameter_cell_cycle_stretched.pdf'
 plot_1<-ggplot()
 plot_1<-plot_1+geom_point(data=mitotic_df,aes(x=mitotic_df$cell_diameter_um,y=mitotic_df$spindle_length_poles_um,colour=factor(mitotic_df$organism_CAT)),alpha=0.5)
 plot_1+scale_colour_manual(values = mapping_vector2,labels=mapping_vector_labs)+labs(title='spindle length as a func of cell diameter - by organism')
-ggsave(filename = 'Y_spindle_length_PP_X_cell_diameter_stretched.pdf',width=11, height=8)
+#ggsave(filename = 'Y_spindle_length_PP_X_cell_diameter_stretched.pdf',width=11, height=8)
 
 
 plot_1<-ggplot()
