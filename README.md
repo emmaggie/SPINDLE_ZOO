@@ -6,7 +6,9 @@ In the spirit of open science, complete R and Python code generated in the cours
 You are free to use data and code for scientific and educational purposes. We only ask you to cite the paper!    
    
 ####DATA FILES
-The raw data file is: **ZOODATA_140923.xlsx**. There is a number of modified files we saved along the way. They are all in this directory. **df2_original_for_SQL.csv** contains mostly 'clean' data. The same is true for **original.csv**. They differ with respect to the types of categorical columns. **original.csv** has 41 columns. All catergorical columns have a an equivalent ending with 'CAT', which encodes strings (words) with integers.   
+The raw data file is: **ZOODATA_140923.xlsx**.    
+         
+There is a number of modified files we saved along the way. They are all in this directory. **df2_original_for_SQL.csv** contains mostly 'clean' data. The same is true for **original.csv**. They differ with respect to the types of categorical columns. **original.csv** has 41 columns. All catergorical columns have a an equivalent ending with 'CAT', which encodes strings (words) with integers.   
 
 Two files: **meiotic_false.csv** and  **meiotic_true.csv** are the result of splitting the **original** data frame on the column **meiotic** (i.e. whether spindles are meiotic or mitotic). The final two files: **mitotic_anaphase.to_csv** and **mitotic_metaphase.csv** are the result of and additional data split in file **meiotic_true.csv** on the column **stage** (i.e. stage of the cell cycle). SQLite database (**df2_original.db**) contains the same data as in the file: **df2_original_for_SQL.csv**; title of the table is **data_for_DB**.   
 
