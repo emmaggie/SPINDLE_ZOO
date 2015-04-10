@@ -1,4 +1,4 @@
-##### ANAPHASE
+##### ANAPHASE & LOESS: S1C & S1D
 library(ggplot2)
 
 #setwd('/Volumes/Magdalena_NEW1/MARINA_PAPER/SEPTEMBER_2014')

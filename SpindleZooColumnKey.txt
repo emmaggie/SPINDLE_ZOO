@@ -1,25 +1,0 @@
-Spindle Zoo Columns(first 5 columns are directory/file information)date - date of fileimage - image file nameobjective - 20x, 40x, etctime PF - time post fertilization# of cells - number of cells in embryosDescriptive columns Meiotic- t=true=meiotic spindle, f=false=mitotic spindleStage- cell cycle stage of spindle (p=prometaphase, m=metaphase, a=Anaphase, pI=prometaphase I, mI=metaphase I, aI=anaphase I, pII = prometaphase II, mII=metaphase II, aII=anaphase II)cell diameter - diameter of cell in the pole-to-pole axis Spindle Length_asters - maximum spindle length between aster centersSpindle length_pole - maximum spindle length between spindle polesspindle width- maximum spindle widthspindle aspect ratio_asters - spindle length_asters / spindle widthspindle aspect ratio_poles -  spindle length_poles / spindle widthaster-to-pole distance 1 - distance between centrosome and poleaster-to-pole distance 2 - distance between centrosome and poleinner aster diameter 1 - maximum inner diameter of asterinner aster diameter 2 - maximum inner diameter of asterouter aster diameter 1 - maximum outer diameter of asterouter aster diameter 2 - maximum outer diameter of astercentrosomes -  present (t=true , f=false)metaphase plate length - maximum length of chromosome massmetaphase plate width - maximum width of metaphase platemetaphase plate aspect ratio - metaphase plate length/widthpolar body diameter 1 - maximum diameter of polar bodypolar body diameter 2 - maximum diameter of polar bodyDistance between chromosomes - distance between segregating chromosomes (0=metaphase plate, na=prometaphase)Microscope - microscope and objective used for image (mm40- micromanager 40x, mm20-micromanager 20x, mm6-micromanager 6x, zlsm20- Rachel/Zeiss Laser scanning confocal 20x, zlsm40- Rachel/Zeiss Laser scanning confocal 40x, nsd60-Max/Nikon spinning disc, olf-olympus fluoroview, zax20-fletcher lab zeiss axiovert 20xobjective, zax10-zax20-fletcher lab zeiss axiovert 10xobjective )Fixation - fixation used (m=100% methanol, df=dassow fixative, pf=4% paraformaldehyde)Organism - species namePhylum:
-  cnidaria 1
-  mollusca 2
-  annelida 3 
-  nemertea 4
-  arthropoda 5
-  nematoda 6
-  echinodermata 7
-  chordata 8Classification - further classification of organism:
- r=radiata 1
- bpl=bilateria/protostomia/lophotrochozoa 2
- bpe=bilateria/protosomia/ecdysozoa 3
- bd=bilateria/dueterostomia 4 Genome -genome size in MbpChromosome - diploid chromosome numberDay - day of experiment (June 17, 2014 = 140617)cleavage type - type of cleavages in early embryo:
- ir=irregular 1
- s=spiral 2
- sf=superficial 3
- rah=radial holoblastic 4 
- dm = discoidal 5
- b=bilateral 6
- dm = discoidal meroblastic 7
- dra=displaced radial cleavage holoblastic 8
- ro=rotational 9
-
-
-**0 = numerical value of 0na = measurement not available/not able to make

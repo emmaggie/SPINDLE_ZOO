@@ -1,5 +1,7 @@
+###############################################################################################
 ##INNER ASTER DIAMETER AS A FUNCTION OF CELL SIZE
 ##final data prep in: A_Marina_spindle_zoo_part4.ipynb
+###############################################################################################
 
 library(ggplot2)
 
@@ -65,8 +67,8 @@ text(1:length(mapping_vector2),names(mapping_vector2),cex=0.5)
 ################################################################################################
 ################################################################################################
 #see file: A_Marina_spindle_zoo_part3.ipynb: use it to add means column to plotting data frame
-
 head(inner_diam_mit_met)
+inner_diam_mit_met_copy=inner_diam_mit_met[which(!inner_diam_mit_met$inner_aster_diam_AVG>50),]
 
 #1
 plot_Jan2015<-ggplot()

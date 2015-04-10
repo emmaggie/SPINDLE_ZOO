@@ -1,4 +1,10 @@
 ###############################################################################################
+#PIECEWISE REGRESSION
+###############################################################################################
+
+
+
+###############################################################################################
 #LOAD DATA AND LIBRARIES
 ###############################################################################################
 library(ggplot2)
@@ -17,11 +23,11 @@ original.SQL.met.mit<-original.SQL.met[which(original.SQL.met$meiotic==0),]
 
 ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length_poles_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2))
 
-ggsave(ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length_poles_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2)),filename='0_log_log_p2p_cd.pdf')
+#ggsave(ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length_poles_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2)),filename='0_log_log_p2p_cd.pdf')
 
 ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length__asters_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2))
 
-ggsave(ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length__asters_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2)),filename='0_log_log_a2a_cd.pdf')
+#ggsave(ggplot(data=original.SQL.met.mit)+geom_point(aes(y=log2(spindle_length__asters_um),x=log2(cell_diameter_um),colour=organism),alpha=0.9)+scale_color_manual(values=mapping_vector2,labels=names(mapping_vector2))+ylim(1,log2(2**7.2)),filename='0_log_log_a2a_cd.pdf')
 
 ###############################################################################################
 #DEFINE HELPER FUNCTIONS
@@ -95,6 +101,22 @@ piecewise_reg<-function(data_frame, x, y){
   return(result)
 }
 
+piecewise_reg_log_log<-function(data_frame, x, y){
+  breaks<-break_number(data_frame[,x])
+  
+  sigma<-vector(mode='numeric',length=length(breaks))
+  AIC<-vector(mode='numeric',length=length(breaks))
+  BIC<-vector(mode='numeric',length=length(breaks))
+  for (i in 1:length(breaks)){
+    model<-lm(log2(data_frame[,y]) ~ (data_frame[,x]<breaks[i])*log2(data_frame[,x]) + (data_frame[,x]>breaks[i])*log2(data_frame[,x]))
+    sigma[i]<-summary(model)$sigma #c(sigma=model$sigma,AIC=AIC(model))
+    AIC[i]<-AIC(model)#c(sigma=model$sigma,AIC=AIC(model))
+    BIC[i]<-BIC(model)
+  }
+  result = list(breaks=breaks,sigma=sigma, AIC=AIC, BIC=BIC)
+  return(result)
+}
+
 plotter<-function(list_of_models){
   #Saves batch generated plots   
   for (i in 1:length(list_of_models)){
@@ -110,6 +132,11 @@ plotter<-function(list_of_models){
 pr.cell_diam.sp_len.p2p=piecewise_reg(original.SQL.met.mit,'cell_diameter_um','spindle_length_poles_um')
 ggplot(data=as.data.frame(pr.cell_diam.sp_len.p2p))+geom_line(aes(x=breaks,y=ceiling(AIC)),colour='black',size=1)
 ggsave(ggplot(data=as.data.frame(pr.cell_diam.sp_len.p2p))+geom_line(aes(x=breaks,y=ceiling(AIC)),colour='black',size=1),filename='0_PR_AIC_ALL.pdf')
+
+pr.cell_diam.sp_len.p2p.LL=piecewise_reg_log_log(original.SQL.met.mit,'cell_diameter_um','spindle_length_poles_um')
+ggplot(data=as.data.frame(pr.cell_diam.sp_len.p2p.LL))+geom_line(aes(x=breaks,y=round(AIC)),colour='black',size=1)+xla
+
+ggsave(ggplot(data=as.data.frame(pr.cell_diam.sp_len.p2p))+geom_line(aes(x=breaks,y=ceiling(AIC)),colour='black',size=1),filename='0_PR_LL_AIC_ALL.pdf')+
 
 
 

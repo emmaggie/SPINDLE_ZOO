@@ -1,3 +1,9 @@
+###############################################################################################
+#MITOTIC SPINDLES
+#DECISION TREES
+#MULTIPLE REGRESSION
+###############################################################################################
+
 #Figure 4 and S4 MEIOTIC
 #Try piecewise regression for fig 1. 
 #http://rkbookreviews.wordpress.com/2011/08/27/doing-bayesian-data-analysis-summary/
