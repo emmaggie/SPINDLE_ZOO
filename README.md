@@ -18,7 +18,8 @@ There are two additionally processed files: **original_SQL_WO_dupes_WO_metadata_
 Please refer to the file **SpindleZooColumnKey.txt** for the description of columns. 
 
 ### [CODE](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/Final/Code)     
-As of May 2015, Github renders Jupyter notebooks. You should see the ouput (not JSON)when you click the file on-line (have patience, some of them are a bit large and take time to render).     
+As of May 2015, Github renders Jupyter notebooks. You should see the ouput (i.e. not raw JSON), when you click the file on-line (have patience, some of them are a bit large and take time to render).     
+     
 Alternative way to visualize our code is through [nbviewer](http://nbviewer.ipython.org). All files ending with .ipynb can be scrolled through this way (you can see the code and the output). Simply, go to the [folder with all our code](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/Final/Code), right click on the file ending with **.ipynb**, copy the link address, paste it [here](http://nbviewer.ipython.org) and hit **Go!**.     
 [This is what it should look like](http://nbviewer.ipython.org/github/emmaggie/SPINDLE_ZOO/blob/master/Final/Code/6_piecewise_regression_Fig2_and_S2.ipynb).   
 The code with no plots in the manuscript has a suffix *_appendix*.    
