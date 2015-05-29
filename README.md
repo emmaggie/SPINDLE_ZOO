@@ -1,9 +1,9 @@
 ### SPINDLE ZOO
-Scripts and plots from: "The Spindle Zoo provides a comparative analysis of spindle morphometrics across metazoans."   
+Scripts and plots from: "A comparative analysis of spindle morphometrics across metazoans."   
      
 In the spirit of open science, our complete data set (measurements) and R and Python code generated in the course of data analysis is deposited here. We are working on making the raw data (images) available too. We will provide a link here once we manage to do so.     
 
-You are free to use data and code for scientific and educational purposes. We only ask you to cite the paper!    
+You are free to use data and code for scientific and educational purposes. We only ask you to [cite the paper](http://dx.doi.org/10.1016/j.cub.2015.04.036)!    
    
 ####[DATA FILES](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/Final/Data)        
 All data files are in the folder [Final/Data](https://github.com/emmaggie/SPINDLE_ZOO/tree/master/Final/Data).
